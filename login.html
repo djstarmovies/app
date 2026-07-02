@@ -1,51 +1,96 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dj Star Movies</title>
+<title>Dj Star Movies - Login</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <script type="module" src="app.js"></script>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js"
+
+// ---------------------
+// SUPABASE INIT
+// ---------------------
+const supabase = createClient(
+  "https://rjjsdqikvtzhnpmdouir.supabase.co",
+ 
+ "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk"
+)
+
+
+// Make it global so buttons can access it
+window.supabase = supabase
+
+// ---------------------
+// GOOGLE LOGIN
+// ---------------------
+window.loginGoogle = async function () {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin + "/auth-callback.html"
+    }
+  })
+
+  if (error) alert(error.message)
+}
+
+// ---------------------
+// PHONE OTP LOGIN
+// ---------------------
+window.sendOTP = async function () {
+  const phone = document.getElementById("phone").value
+
+  const { error } = await supabase.auth.signInWithOtp({
+    phone: phone
+  })
+
+  if (error) {
+    alert(error.message)
+  } else {
+    alert("OTP sent to phone!")
+  }
+}
+</script>
+
 </head>
 
-<body class="bg-black text-white min-h-screen flex items-center justify-center">
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
 
-<div class="w-full max-w-md p-8">
+<div class="w-full max-w-md p-6">
 
-    <h1 class="text-4xl font-bold mb-2">
-        Dj Star Movies
-    </h1>
+<h1 class="text-4xl font-bold mb-2">Dj Star Movies</h1>
 
-    <p class="text-gray-400 mb-8">
-        Watch Kiswahili Movies & Series
-    </p>
+<p class="text-gray-400 mb-8">Watch Kiswahili Movies & Series</p>
 
-    <button
-        onclick="loginGoogle()"
-        class="w-full bg-white text-black p-4 rounded-xl font-semibold mb-6">
-        Continue with Google
-    </button>
+<!-- Google Login -->
+<button onclick="loginGoogle()"
+class="w-full bg-white text-black p-4 rounded-xl font-semibold mb-6">
+Continue with Google
+</button>
 
-    <div class="text-center mb-6">
-        OR
-    </div>
+<div class="text-center text-gray-500 mb-4">OR</div>
 
-    <input
-        id="phone"
-        type="tel"
-        placeholder="+256700000000"
-        class="w-full p-4 rounded-xl bg-gray-900 border border-gray-700 mb-4">
+<!-- Phone -->
+<input id="phone"
+type="tel"
+placeholder="+256700000000"
+class="w-full p-4 rounded-xl bg-gray-900 border border-gray-700 mb-4">
 
-    <button
-        onclick="sendOTP()"
-        class="w-full bg-red-600 hover:bg-red-700 p-4 rounded-xl">
-        Continue with Phone
-    </button>
+<button onclick="sendOTP()"
+class="w-full bg-red-600 hover:bg-red-700 p-4 rounded-xl">
+Continue with Phone
+</button>
+
+<p class="text-xs text-gray-500 mt-6 text-center">
+By continuing you agree to our Terms & Privacy Policy
+</p>
 
 </div>
 
 </body>
 </html>
+
