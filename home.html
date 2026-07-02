@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dj Star Movies - Home</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  body {
+    background: #000;
+    color: white;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="flex justify-between items-center px-6 py-4 bg-black/80 backdrop-blur fixed w-full z-50">
+  <h1 class="text-red-600 font-bold text-xl">Dj Star Movies</h1>
+
+  <div class="space-x-4 text-sm">
+    <a href="home.html">Home</a>
+    <a href="#">Movies</a>
+    <a href="#">Series</a>
+    <a href="#">My List</a>
+    <button class="bg-red-600 px-3 py-1 rounded">Logout</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="h-[70vh] flex items-end p-10 bg-cover bg-center"
+  style="background-image:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba')">
+
+  <div class="bg-black/50 p-6 rounded-xl max-w-xl">
+    <h2 class="text-4xl font-bold">Welcome to Dj Star Movies</h2>
+    <p class="text-gray-300 mt-2">Unlimited Kiswahili Movies & Series for Subscribers</p>
+
+    <button class="mt-4 bg-red-600 px-5 py-2 rounded">▶ Watch Now</button>
+  </div>
+</section>
+
+<!-- LATEST MOVIES -->
+<section class="px-6 mt-10">
+  <h3 class="text-xl font-bold mb-3">🎬 Latest Movies</h3>
+
+  <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4" class="rounded-lg">
+      <p class="text-sm mt-2">Action Movie 1</p>
+    </div>
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66" class="rounded-lg">
+      <p class="text-sm mt-2">Drama Movie 2</p>
+    </div>
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791b" class="rounded-lg">
+      <p class="text-sm mt-2">Comedy Movie 3</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- LATEST SERIES -->
+<section class="px-6 mt-10 mb-20">
+  <h3 class="text-xl font-bold mb-3">📺 Latest Series</h3>
+
+  <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1522120692538-9fce0c6f3f8c" class="rounded-lg">
+      <p class="text-sm mt-2">Series 1</p>
+    </div>
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba" class="rounded-lg">
+      <p class="text-sm mt-2">Series 2</p>
+    </div>
+
+    <div class="min-w-[160px] card">
+      <img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66" class="rounded-lg">
+      <p class="text-sm mt-2">Series 3</p>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
