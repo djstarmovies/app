@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -19,6 +19,7 @@
     background: #111;
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
   }
 
   .lock-overlay {
@@ -30,46 +31,79 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    z-index: 10;
   }
 </style>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js"
+
+const supabase = createClient(
+  "https://rjjsdqikvtzhnpmdouir.supabase.co",
+  "YOUR_ANON_KEY"
+)
+
+window.supabase = supabase
+
+// LOGIN FUNCTION
+window.loginToUnlock = async function () {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.href
+    }
+  })
+
+  if (error) alert(error.message)
+}
+
+// CHECK LOGIN STATUS
+async function checkUser() {
+  const { data } = await supabase.auth.getUser()
+
+  if (data.user) {
+    document.getElementById("lock").classList.add("hidden")
+  } else {
+    document.getElementById("lock").classList.remove("hidden")
+  }
+}
+
+checkUser()
+</script>
+
 </head>
 
 <body>
 
-<!-- NAV -->
 <header class="flex justify-between items-center px-6 py-4 border-b border-gray-800">
   <h1 class="text-red-600 font-bold text-xl">Dj Star Movies</h1>
   <a href="home.html" class="text-gray-300">← Back</a>
 </header>
 
-<!-- MAIN -->
 <section class="max-w-5xl mx-auto p-6">
 
-  <!-- VIDEO PLAYER -->
-  <div class="relative player-box mb-6">
+  <div class="player-box mb-6">
 
-    <!-- VIDEO (You can later replace src dynamically from Supabase) -->
     <iframe
-      id="videoPlayer"
       class="w-full h-full"
       src="https://www.youtube.com/embed/dQw4w9WgXcQ"
       allowfullscreen
       allow="autoplay; encrypted-media">
     </iframe>
 
-    <!-- PREMIUM LOCK (toggle later with Supabase) -->
-    <div id="lock" class="lock-overlay hidden">
+    <div id="lock" class="lock-overlay">
       <h2 class="text-2xl font-bold mb-2">Premium Content</h2>
-      <p class="text-gray-400 mb-4">Subscribe to watch this movie</p>
+      <p class="text-gray-400 mb-4">Login to watch this movie</p>
 
-      <button class="bg-red-600 px-6 py-3 rounded">
-        Unlock Now
+      <button 
+        onclick="loginToUnlock()" 
+        class="bg-red-600 px-6 py-3 rounded hover:bg-red-700 transition">
+        🔐 Continue with Google
       </button>
     </div>
 
   </div>
 
-  <!-- INFO -->
   <div class="mb-6">
     <h2 class="text-3xl font-bold">Movie Title Here</h2>
 
@@ -82,55 +116,26 @@
     </div>
 
     <p class="text-gray-400 mt-4">
-      This is the movie description. Later this will come from Supabase database based on the movie ID.
+      This movie will later be loaded dynamically from Supabase.
     </p>
   </div>
 
-  <!-- ACTIONS -->
   <div class="flex space-x-4 mb-10">
     <button class="bg-red-600 px-5 py-2 rounded">▶ Play</button>
     <button class="bg-gray-700 px-5 py-2 rounded">+ My List</button>
   </div>
 
-  <!-- RELATED -->
   <div>
     <h3 class="text-xl font-bold mb-3">🔥 Related Movies</h3>
 
     <div class="flex space-x-4 overflow-x-auto">
-
       <img class="w-40 rounded-lg" src="https://images.unsplash.com/photo-1517602302552-471fe67acf66">
       <img class="w-40 rounded-lg" src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791b">
       <img class="w-40 rounded-lg" src="https://images.unsplash.com/photo-1522120692538-9fce0c6f3f8c">
-
     </div>
   </div>
 
 </section>
-
-<script>
-/*
-  FUTURE LOGIC (we will connect Supabase here):
-
-  1. Get video ID from URL:
-     cinema.html?vd=123
-
-  2. Fetch from Supabase:
-     - title
-     - video_url
-     - isPremium
-
-  3. If premium AND user not subscribed:
-     show lock overlay
-*/
-
-const params = new URLSearchParams(window.location.search);
-const videoId = params.get("vd");
-
-// Example: dynamic handling (placeholder logic)
-if (!videoId) {
-  console.log("No video ID provided");
-}
-</script>
 
 </body>
 </html>
