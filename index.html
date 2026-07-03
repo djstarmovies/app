@@ -558,170 +558,364 @@ height:470px;
 
 <body>
 
+<!-- ===========================
+SPLASH SCREEN
+=========================== -->
+
+<div id="splash">
+
+    <img
+        src="https://i.ibb.co/VYDYSkjQ/Chat-GPT-Image-Jul-3-2026-12-24-19-AM.png"
+        class="splash-logo"
+        alt="DJ STAR MOVIES">
+
+    <div class="loading-box">
+        <div class="loading-bar"></div>
+    </div>
+
+</div>
+
+<!-- ===========================
+HEADER
+=========================== -->
+
 <header>
 
-<img class="logo"
-src="https://i.ibb.co/VYDYSkjQ/Chat-GPT-Image-Jul-3-2026-12-24-19-AM.png">
+    <img
+        src="https://i.ibb.co/VYDYSkjQ/Chat-GPT-Image-Jul-3-2026-12-24-19-AM.png"
+        class="logo"
+        alt="DJ STAR MOVIES">
 
-<div class="search">
-<input
-type="text"
-id="search"
-placeholder="Search Movies or Series...">
-</div>
+    <div class="search">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search movies & series...">
+    </div>
 
 </header>
 
-<div class="hero">
+<!-- ===========================
+HERO SLIDER
+=========================== -->
 
-<div class="slider" id="slider">
+<section class="hero">
 
-<div class="slide">
-<img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
-<div class="overlay">
-<h2>DJ STAR MOVIES</h2>
-<p>Kenya's Home of Kiswahili Dubbed Movies & Series</p>
-</div>
-</div>
+    <div class="slider" id="slider">
 
-<div class="slide">
-<img src="https://i.ytimg.com/an_webp/dN9KlVnGuL0/mqdefault_6s.webp?du=3000&sqp=CIG4ndIG&rs=AOn4CLDkhSAge2asHEY4KBFRUOVTT_--fA">
-</div>
+        <div class="slide">
+            <img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
+        </div>
 
-<div class="slide">
-<img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
-</div>
+        <div class="slide">
+            <img src="https://i.ytimg.com/an_webp/dN9KlVnGuL0/mqdefault_6s.webp?du=3000&sqp=CIG4ndIG&rs=AOn4CLDkhSAge2asHEY4KBFRUOVTT_--fA">
+        </div>
 
-<div class="slide">
-<img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
-</div>
+        <div class="slide">
+            <img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
+        </div>
 
-<div class="slide">
-<img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
-</div>
+        <div class="slide">
+            <img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
+        </div>
 
-</div>
+        <div class="slide">
+            <img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
+        </div>
 
-</div>
+    </div>
 
-<div class="container">
+    <div class="hero-text fadeUp">
+        <h1>DJ STAR MOVIES</h1>
+        <p>Kenya's Home of Kiswahili Dubbed Movies & Series</p>
+    </div>
 
-<h3>Trending Now</h3>
+</section>
 
-<div class="grid" id="movies">
+<!-- ===========================
+TRENDING NOW
+=========================== -->
 
-<div class="card">
-<img src="https://picsum.photos/300/450?1">
-<h4>Fast X Kiswahili</h4>
-</div>
+<section class="section">
 
-<div class="card">
-<img src="https://picsum.photos/300/450?2">
-<h4>The Equalizer</h4>
-</div>
+    <div class="section-title">
+        <h2>🔥 Trending Now</h2>
+        <a href="movies.html">View All</a>
+    </div>
 
-<div class="card">
-<img src="https://picsum.photos/300/450?3">
-<h4>John Wick</h4>
-</div>
+    <div class="grid" id="movieGrid">
 
-<div class="card">
-<img src="https://picsum.photos/300/450?4">
-<h4>Squid Game</h4>
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=11">
+            <div class="card-info">
+                <div class="card-title">Fast X Kiswahili</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
 
-<div class="card">
-<img src="https://picsum.photos/300/450?5">
-<h4>Money Heist</h4>
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=12">
+            <div class="card-info">
+                <div class="card-title">Extraction 2</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
 
-<div class="card">
-<img src="https://picsum.photos/300/450?6">
-<h4>Extraction</h4>
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=13">
+            <div class="card-info">
+                <div class="card-title">John Wick 4</div>
+                <div class="card-sub">Crime</div>
+            </div>
+        </div>
 
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=14">
+            <div class="card-info">
+                <div class="card-title">The Equalizer</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
 
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=15">
+            <div class="card-info">
+                <div class="card-title">Mission Impossible</div>
+                <div class="card-sub">Adventure</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=16">
+            <div class="card-info">
+                <div class="card-title">Plane</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+LATEST SERIES
+=========================== -->
+
+<section class="section">
+
+    <div class="section-title">
+        <h2>📺 Latest Series</h2>
+        <a href="series.html">View All</a>
+    </div>
+
+    <div class="grid" id="seriesGrid">
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=31">
+            <div class="card-info">
+                <div class="card-title">Squid Game</div>
+                <div class="card-sub">Season 2</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=32">
+            <div class="card-info">
+                <div class="card-title">Money Heist</div>
+                <div class="card-sub">Series</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=33">
+            <div class="card-info">
+                <div class="card-title">Prison Break</div>
+                <div class="card-sub">Series</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=34">
+            <div class="card-info">
+                <div class="card-title">The Boys</div>
+                <div class="card-sub">Season 4</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=35">
+            <div class="card-info">
+                <div class="card-title">Wednesday</div>
+                <div class="card-sub">Season 2</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=36">
+            <div class="card-info">
+                <div class="card-title">The Witcher</div>
+                <div class="card-sub">Fantasy</div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+FOOTER
+=========================== -->
 
 <footer>
 
-<a href="series.html">
-📺
-<span>Series</span>
-</a>
+    <a href="series.html">
+        <i>📺</i>
+        <span>Series</span>
+    </a>
 
-<a href="movies.html">
-🎬
-<span>Movies</span>
-</a>
+    <a href="movies.html">
+        <i>🎬</i>
+        <span>Movies</span>
+    </a>
 
-<a href="#" id="accountBtn">
-👤
-<span>Account</span>
-</a>
+    <a href="#" id="accountBtn">
+        <i>👤</i>
+        <span>Account</span>
+    </a>
 
-<a href="subscribe.html" class="subscribe">
-Subscribe
-</a>
+    <a href="subscribe.html" class="subscribe-btn">
+        Subscribe
+    </a>
 
 </footer>
 
 <script>
+// ===============================
+// SPLASH SCREEN
+// ===============================
 
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+        document.getElementById("splash").classList.add("hide");
+    }, 2800);
+
+});
+
+// ===============================
 // HERO SLIDER
+// ===============================
 
-let current=0;
+const slider = document.getElementById("slider");
+const slides = document.querySelectorAll(".slide");
 
-const slider=document.getElementById("slider");
+let currentSlide = 0;
 
-const slides=document.querySelectorAll(".slide");
+function autoSlide(){
 
-setInterval(()=>{
+    currentSlide++;
 
-current++;
+    if(currentSlide >= slides.length){
+        currentSlide = 0;
+    }
 
-if(current>=slides.length){
-current=0;
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
 }
 
-slider.style.transform="translateX(-"+current*100+"%)";
+setInterval(autoSlide, 4000);
 
-},4000);
+// ===============================
+// LIVE SEARCH
+// ===============================
 
+const searchInput = document.getElementById("searchInput");
 
-// SEARCH
+searchInput.addEventListener("keyup", function(){
 
-document.getElementById("search").addEventListener("keyup",function(){
+    const keyword = this.value.toLowerCase();
 
-let value=this.value.toLowerCase();
+    document.querySelectorAll(".card").forEach(card=>{
+
+        const text = card.innerText.toLowerCase();
+
+        if(text.includes(keyword)){
+            card.style.display="block";
+        }else{
+            card.style.display="none";
+        }
+
+    });
+
+});
+
+// ===============================
+// ACCOUNT BUTTON
+// ===============================
+
+document.getElementById("accountBtn").addEventListener("click",function(e){
+
+    e.preventDefault();
+
+    if(localStorage.getItem("loggedIn") === "true"){
+
+        window.location.href="my_account.html";
+
+    }else{
+
+        window.location.href="login.html";
+
+    }
+
+});
+
+// ===============================
+// CARD ANIMATION ON SCROLL
+// ===============================
+
+const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("fadeUp");
+
+        }
+
+    });
+
+},{
+    threshold:0.15
+});
 
 document.querySelectorAll(".card").forEach(card=>{
 
-card.style.display=
-card.innerText.toLowerCase().includes(value)
-?"block":"none";
+    observer.observe(card);
 
 });
 
+// ===============================
+// HEADER SHADOW ON SCROLL
+// ===============================
+
+window.addEventListener("scroll",()=>{
+
+    const header=document.querySelector("header");
+
+    if(window.scrollY>20){
+
+        header.style.background="rgba(0,0,0,.96)";
+        header.style.boxShadow="0 8px 20px rgba(0,0,0,.6)";
+
+    }else{
+
+        header.style.background="rgba(0,0,0,.88)";
+        header.style.boxShadow="0 5px 20px rgba(0,0,0,.45)";
+
+    }
+
 });
-
-
-// ACCOUNT LOGIN CHECK
-
-document.getElementById("accountBtn").onclick=function(){
-
-if(localStorage.getItem("loggedIn")=="true"){
-
-window.location="my_account.html";
-
-}else{
-
-window.location="login.html";
-
-}
-
-};
 
 </script>
 
