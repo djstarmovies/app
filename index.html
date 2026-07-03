@@ -604,23 +604,23 @@ HERO SLIDER
     <div class="slider" id="slider">
 
         <div class="slide">
-            <img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
+            <img src="https://img.youtube.com/vi/FVH4EiQkXdU/maxresdefault.jpg">
         </div>
 
         <div class="slide">
-            <img src="https://i.ytimg.com/an_webp/dN9KlVnGuL0/mqdefault_6s.webp?du=3000&sqp=CIG4ndIG&rs=AOn4CLDkhSAge2asHEY4KBFRUOVTT_--fA">
+            <img src="https://img.youtube.com/vi/W_y208n6ERg/maxresdefault.jpg">
         </div>
 
         <div class="slide">
-            <img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
+            <img src="https://img.youtube.com/vi/ftDgEfPqQtI/maxresdefault.jpg">
         </div>
 
         <div class="slide">
-            <img src="https://i.ytimg.com/an_webp/Id89GVe53AE/mqdefault_6s.webp?du=3000&sqp=CN_7nNIG&rs=AOn4CLDT-BWevl5FGVNVWISt7y9Q_x_9EA">
+            <img src="https://img.youtube.com/vi/dN9KlVnGuL0/maxresdefault.jpg">
         </div>
 
         <div class="slide">
-            <img src="https://i.ytimg.com/an_webp/W_y208n6ERg/mqdefault_6s.webp?du=3000&sqp=CPihndIG&rs=AOn4CLA1Oy66F__NhK8bHQrArnRBxScisQ">
+            <img src="https://img.youtube.com/vi/FdfpHCOEhVE/maxresdefault.jpg">
         </div>
 
     </div>
@@ -640,7 +640,7 @@ TRENDING NOW
 
     <div class="section-title">
         <h2>🔥 Trending Now</h2>
-        <a href="movies.html">View All</a>
+<a href="#" id="viewAllMovies">View All</a>
     </div>
 
     <div class="grid" id="movieGrid">
@@ -705,7 +705,7 @@ LATEST SERIES
 
     <div class="section-title">
         <h2>📺 Latest Series</h2>
-        <a href="series.html">View All</a>
+<a href="#" id="viewAllSeries">View All</a>
     </div>
 
     <div class="grid" id="seriesGrid">
@@ -916,7 +916,41 @@ window.addEventListener("scroll",()=>{
     }
 
 });
+// ===============================
+// LOGIN REQUIRED FOR VIEW ALL
+// ===============================
 
+document.getElementById("viewAllMovies").addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    if(localStorage.getItem("loggedIn") === "true"){
+
+        window.location.href = "movies.html";
+
+    }else{
+
+        window.location.href = "login.html";
+
+    }
+
+});
+
+document.getElementById("viewAllSeries").addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    if(localStorage.getItem("loggedIn") === "true"){
+
+        window.location.href = "series.html";
+
+    }else{
+
+        window.location.href = "login.html";
+
+    }
+
+});
 </script>
 
 </body>
