@@ -7,168 +7,549 @@
 
 <title>DJ STAR MOVIES</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
 background:#090909;
-color:white;
+color:#fff;
+overflow-x:hidden;
 padding-bottom:90px;
 }
 
-/* HEADER */
+/* ===========================
+SPLASH SCREEN
+=========================== */
 
-header{
+#splash{
 position:fixed;
 top:0;
 left:0;
 width:100%;
-padding:10px 15px;
+height:100%;
 background:#000;
 display:flex;
+justify-content:center;
 align-items:center;
-gap:10px;
+flex-direction:column;
+z-index:999999;
+transition:1s;
+}
+
+#splash.hide{
+opacity:0;
+visibility:hidden;
+}
+
+.splash-logo{
+width:180px;
+animation:zoomLogo 1.5s infinite alternate;
+}
+
+.loading-box{
+width:220px;
+height:6px;
+background:#222;
+margin-top:30px;
+border-radius:30px;
+overflow:hidden;
+}
+
+.loading-bar{
+height:100%;
+width:0%;
+background:#e50914;
+animation:loading 2.8s linear forwards;
+}
+
+@keyframes loading{
+
+0%{width:0%;}
+
+100%{width:100%;}
+
+}
+
+@keyframes zoomLogo{
+
+0%{
+transform:scale(.9);
+opacity:.8;
+}
+
+100%{
+transform:scale(1.05);
+opacity:1;
+}
+
+}
+
+/* ===========================
+HEADER
+=========================== */
+
+header{
+
+position:fixed;
+top:0;
+left:0;
+right:0;
+
+display:flex;
+align-items:center;
+gap:14px;
+
+padding:12px 15px;
+
+background:rgba(0,0,0,.88);
+backdrop-filter:blur(12px);
+
 z-index:999;
-box-shadow:0 3px 10px rgba(0,0,0,.4);
+
+box-shadow:0 5px 20px rgba(0,0,0,.45);
+
 }
 
 .logo{
-height:50px;
+
+height:60px;
+width:auto;
+
 }
 
 .search{
+
 flex:1;
+
 }
 
 .search input{
+
 width:100%;
-padding:12px;
-border-radius:30px;
+
+height:46px;
+
 border:none;
-background:#1f1f1f;
-color:white;
-font-size:15px;
+
 outline:none;
+
+padding:0 18px;
+
+border-radius:30px;
+
+background:#1d1d1d;
+
+color:white;
+
+font-size:15px;
+
+transition:.35s;
+
 }
 
-/* HERO */
+.search input:focus{
+
+background:#292929;
+
+box-shadow:0 0 0 2px #e50914;
+
+}
+
+/* ===========================
+HERO
+=========================== */
 
 .hero{
-margin-top:75px;
-position:relative;
-height:240px;
+
+margin-top:86px;
+
+height:230px;
+
 overflow:hidden;
+
+position:relative;
+
 }
 
 .slider{
+
 display:flex;
+
 height:100%;
-transition:.6s;
+
+transition:1s ease;
+
 }
 
 .slide{
+
 min-width:100%;
+
 position:relative;
+
 }
 
 .slide img{
+
 width:100%;
+
 height:100%;
+
 object-fit:cover;
+
 }
 
-.overlay{
+.slide::after{
+
+content:"";
+
 position:absolute;
-bottom:0;
+
 left:0;
+
 right:0;
-padding:25px;
-background:linear-gradient(transparent,#000);
+
+bottom:0;
+
+top:0;
+
+background:linear-gradient(to top,#090909,transparent,transparent);
+
 }
 
-.overlay h2{
+.hero-text{
+
+position:absolute;
+
+left:20px;
+
+bottom:22px;
+
+z-index:5;
+
+}
+
+.hero-text h1{
+
 font-size:28px;
+
+font-weight:700;
+
 }
 
-.overlay p{
-margin-top:5px;
+.hero-text p{
+
+font-size:13px;
+
+margin-top:4px;
+
 color:#ddd;
+
 }
 
-/* CONTENT */
+/* ===========================
+SECTION
+=========================== */
 
-.container{
-padding:20px;
+.section{
+
+padding:20px 14px;
+
 }
 
-h3{
+.section-title{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
 margin-bottom:15px;
+
 }
+
+.section-title h2{
+
+font-size:19px;
+
+font-weight:600;
+
+}
+
+.section-title a{
+
+text-decoration:none;
+
+color:#e50914;
+
+font-size:13px;
+
+}
+
+/* ===========================
+GRID
+=========================== */
 
 .grid{
+
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-gap:15px;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
 }
 
 .card{
-background:#161616;
-border-radius:12px;
+
+background:#171717;
+
+border-radius:10px;
+
 overflow:hidden;
-transition:.3s;
+
 cursor:pointer;
+
+transition:.35s;
+
 }
 
 .card:hover{
-transform:scale(1.05);
+
+transform:translateY(-5px);
+
+box-shadow:0 10px 20px rgba(0,0,0,.45);
+
 }
 
 .card img{
+
 width:100%;
-height:220px;
+
+aspect-ratio:2/3;
+
 object-fit:cover;
+
+display:block;
+
 }
 
-.card h4{
-padding:10px;
-font-size:15px;
+.card-info{
+
+padding:8px;
+
 }
 
-/* FOOTER */
+.card-title{
+
+font-size:12px;
+
+font-weight:600;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.card-sub{
+
+margin-top:3px;
+
+font-size:10px;
+
+color:#aaa;
+
+}
+
+/* ===========================
+SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar{
+
+width:4px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#e50914;
+
+border-radius:30px;
+
+}
+
+/* ===========================
+BOTTOM NAVIGATION
+=========================== */
 
 footer{
+
 position:fixed;
-bottom:0;
+
 left:0;
+
+bottom:0;
+
 width:100%;
-height:65px;
+
+height:68px;
+
 background:#111;
+
 display:flex;
+
 justify-content:space-around;
+
 align-items:center;
-box-shadow:0 -3px 12px rgba(0,0,0,.5);
+
+box-shadow:0 -4px 18px rgba(0,0,0,.45);
+
+z-index:999;
+
 }
 
 footer a{
-text-decoration:none;
+
 color:white;
-font-size:14px;
+
+text-decoration:none;
+
 display:flex;
+
 flex-direction:column;
+
 align-items:center;
+
+font-size:11px;
+
+transition:.3s;
+
 }
 
-.subscribe{
+footer a:hover{
+
+color:#e50914;
+
+}
+
+footer i{
+
+font-size:22px;
+
+margin-bottom:4px;
+
+}
+
+.subscribe-btn{
+
 background:#e50914;
-padding:10px 16px;
-border-radius:25px;
-font-weight:bold;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+/* ===========================
+ANIMATIONS
+=========================== */
+
+.fadeUp{
+
+animation:fadeUp .7s ease;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(min-width:700px){
+
+.hero{
+
+height:360px;
+
+}
+
+.grid{
+
+grid-template-columns:repeat(5,1fr);
+
+}
+
+.logo{
+
+height:65px;
+
+}
+
+.search input{
+
+height:48px;
+
+font-size:16px;
+
+}
+
+}
+
+@media(min-width:1100px){
+
+.grid{
+
+grid-template-columns:repeat(7,1fr);
+
+}
+
+.hero{
+
+height:470px;
+
+}
+
 }
 
 </style>
