@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dj Star Movies - Series</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing:border-box }
+body {
+  margin:0;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color:#e5e7eb;
+  font-family:'Poppins', sans-serif;
+  overflow-x:hidden;
+}
+.logo {
+  display:flex;
+  justify-content:center;
+  padding:16px 10px 6px;
+  z-index:10;
+  position:relative;
+}
+.logo img {
+  height:50px;
+  border-radius:12px;
+}
+.card img{
+  transition:.35s;
+}
+
+.card:hover img{
+  transform:scale(1.05);
+}
+  .logo img {
+  height:50px;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(56,189,248,0.3);
+}
+.nav{
+
+    position:fixed;
+
+    left:15px;
+
+    right:15px;
+
+    bottom:15px;
+
+    height:68px;
+
+    background:#151515;
+
+    border-radius:22px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    align-items:center;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.45);
+
+    z-index:999;
+
+}
+
+.nav button{
+
+    background:none;
+
+    border:none;
+
+    color:#999;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:4px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    width:70px;
+
+}
+
+.nav button i{
+
+    font-size:22px;
+
+}
+
+.nav button span{
+
+    font-size:11px;
+
+}
+
+.nav button:hover{
+
+    color:white;
+
+}
+
+.nav button.active{
+
+    color:#e50914;
+
+}
+
+.nav button.active i{
+
+    transform:scale(1.15);
+
+}
+
+.search {
+  padding:16px;
+}
+.search input, .search select {
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:#0f172a;
+  color:#fff;
+  font-size:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+
+.series{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:12px;
+}
+
+.card{
+
+    background:#171717;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+.card:hover {
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 15px 35px rgba(0,0,0,.6);
+}
+.card img{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  display:block;
+}
+.badge {
+  position:absolute;
+  top:8px;
+  left:8px;
+  padding:4px 8px;
+  font-size:10px;
+  font-weight:bold;
+  border-radius:6px;
+  text-transform:uppercase;
+  box-shadow:0 2px 10px rgba(0,0,0,.6);
+}
+.badge.free{background:#22c55e}
+.badge.premium{background:#ef4444}
+.info {
+  padding:8px;
+}
+.title{
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+.meta{
+
+    color:#9ca3af;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+}
+body{
+
+    padding-bottom:90px;
+
+}
+.watch {
+  width:100%;
+  padding:9px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+  font-weight:bold;
+  font-size:12px;
+  cursor:pointer;
+  transition:.25s;
+}
+@media (min-width:768px){
+
+  .movies{
+    grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
+  }
+
+}
+.watch:hover { transform:scale(1.03); }
+</style>
+</head>
+<body>
+
+<div class="logo">
+<img src="images/logo.png" alt="Dj Star Movies">
+</div>
+
+<div class="nav">
+<button onclick="location.href='index.html'">
+<i class="fas fa-house"></i>
+<span>Home</span>
+</button>
+
+<button onclick="location.href='movies.html'">
+    <i class="fas fa-film"></i>
+    <span>Movies</span>
+</button>
+
+<button class="active">
+    <i class="fas fa-tv"></i>
+    <span>Series</span>
+</button>
+
+<button onclick="location.href='my-account.html'">
+<i class="fas fa-user"></i>
+<span>Account</span>
+</button>
+</div>
+
+<div class="search">
+  <input id="search" placeholder="🔍 Search Series......">
+  <select id="genreFilter">
+    <option value="ALL">All Genres</option>
+    <option value="ACTION">Action</option>
+    <option value="COMEDY">Comedy</option>
+    <option value="DRAMA">Drama</option>
+    <option value="HORROR">Horror</option>
+    <option value="ROMANCE">Romance</option>
+    <option value="SCI-FI">SCI-FI</option>
+  </select>
+</div>
+
+<div class="series" id="list"></div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://rjjsdqikvtzhnpmdouir.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const box = document.getElementById("list");
+const search = document.getElementById("search");
+const genreSelect = document.getElementById("genreFilter");
+let activeGenre = null;
+let SERIES = [];
+
+
+function render(data){
+
+  box.innerHTML = "";
+
+  if(!data || data.length===0){
+    box.innerHTML="<p>No series available.</p>";
+    return;
+  }
+
+  data.forEach(m=>{
+
+    const c = document.createElement("div");
+    c.className = "card";
+
+    c.onclick = () => {
+      location.href = `series-details.html?id=${m.id}`;
+    };
+
+
+    c.innerHTML = `
+      <div style="position:relative">
+        <img src="${m.poster}" alt="${m.title}">
+      </div>
+
+      <div class="info">
+        <div class="title">${m.title}</div>
+
+        <div class="meta">
+          ${m.country || ''} • ${m.year || ''} • <br>
+
+📺 ${m.episodes || 0} Episodes
+
+<br>
+
+🎭 ${m.genre || ''}
+          <br>👁 ${m.views || 0} views
+        </div>
+      </div>
+    `;
+
+    box.appendChild(c);
+
+  });
+
+}
+
+function applyFilters(){
+  let filtered = [...SERIES];
+  if(activeGenre){
+    filtered = filtered.filter(m => m.genre && m.genre.toLowerCase() === activeGenre.toLowerCase());
+  }
+  const q = search.value.trim().toLowerCase();
+  if(q){
+    filtered = filtered.filter(m => m.title.toLowerCase().includes(q));
+  }
+  render(filtered);
+}
+
+search.oninput = applyFilters;
+genreSelect.onchange = () => {
+  const val = genreSelect.value;
+  activeGenre = val==="ALL"?null:val;
+  applyFilters();
+}
+
+async function loadMovies(){
+  const { data, error } = await supabase
+    .from('series')
+    .select('*')
+    .order('created_at',{ascending:false}); // newest first
+  if(error){ console.error(error); box.innerHTML="<p>Failed to load movies.</p>"; return; }
+  if(!data || data.length===0){ box.innerHTML="<p>No movies available.</p>"; return; }
+SERIES = data;
+render(SERIES);
+}
+
+loadMovies();
+</script>
+
+</body>
+</html>
