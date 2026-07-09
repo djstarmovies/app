@@ -2,997 +2,366 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dj Star Movies - Series Details</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Dj Star Movies - Series</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* { box-sizing:border-box }
+body {
+  margin:0;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color:#e5e7eb;
+  font-family:'Poppins', sans-serif;
+  overflow-x:hidden;
+}
+.logo {
+  display:flex;
+  justify-content:center;
+  padding:16px 10px 6px;
+  z-index:10;
+  position:relative;
+}
+.logo img {
+  height:50px;
+  border-radius:12px;
+}
+.card img{
+  transition:.35s;
 }
 
-html{
-    scroll-behavior:smooth;
+.card:hover img{
+  transform:scale(1.05);
 }
-
-body{
-
-    background:#080808;
-    color:#fff;
-    font-family:'Poppins',sans-serif;
-    padding-bottom:40px;
-
+  .logo img {
+  height:50px;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(56,189,248,0.3);
 }
+.nav{
 
-/* Hero Banner */
+    position:fixed;
 
-.hero{
+    left:15px;
 
-    position:relative;
+    right:15px;
 
-    width:100%;
+    bottom:15px;
 
-    height:280px;
+    height:68px;
 
-    overflow:hidden;
+    background:#151515;
 
-    background:#111;
-
-}
-
-.hero img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-.hero::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:0;
-    top:0;
-
-    background:
-    linear-gradient(to top,#080808 0%,rgba(8,8,8,.15) 55%,rgba(8,8,8,.35) 100%);
-
-}
-
-/* Floating Buttons */
-
-.top-buttons{
-
-    position:absolute;
-
-    top:18px;
-
-    left:18px;
-
-    right:18px;
+    border-radius:22px;
 
     display:flex;
 
-    justify-content:space-between;
+    justify-content:space-around;
 
-    z-index:10;
+    align-items:center;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.45);
+
+    z-index:999;
 
 }
 
-.circle-btn{
+.nav button{
 
-    width:46px;
-
-    height:46px;
-
-    border-radius:50%;
+    background:none;
 
     border:none;
 
-    background:rgba(0,0,0,.55);
-
-    backdrop-filter:blur(12px);
-
-    color:#fff;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.circle-btn:hover{
-
-    transform:scale(1.08);
-
-    background:#e50914;
-
-}
-
-/* Details */
-
-.details{
-
-    margin-top:-55px;
-
-    position:relative;
-
-    z-index:5;
-
-    padding:20px;
-
-}
-
-.title{
-
-    font-size:30px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-}
-
-.meta{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    color:#b5b5b5;
-
-    font-size:14px;
-
-    margin-bottom:18px;
-
-}
-
-.meta span{
-
-    background:#171717;
-
-    padding:6px 12px;
-
-    border-radius:30px;
-
-}
-
-.synopsis{
-
-    color:#d4d4d4;
-
-    line-height:1.8;
-
-    margin-bottom:24px;
-
-    font-size:15px;
-
-}
-
-/* Action Buttons */
-
-.actions{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:12px;
-
-    margin-bottom:28px;
-
-}
-
-.action-btn{
-
-    border:none;
-
-    border-radius:16px;
-
-    padding:15px;
-
-    cursor:pointer;
-
-    color:#fff;
-
-    font-weight:600;
-
-    font-size:15px;
-
-    transition:.25s;
-
-}
-
-.play-btn{
-
-    background:#e50914;
-
-}
-
-.favorite-btn{
-
-    background:#222;
-
-}
-
-.share-btn{
-
-    background:#1f2937;
-
-}
-
-.action-btn:hover{
-
-    transform:translateY(-3px);
-
-}
-
-/* Section */
-
-.section{
-
-    padding:0 20px;
-
-    margin-top:10px;
-
-}
-
-.section-title{
-
-    font-size:20px;
-
-    font-weight:700;
-
-    margin-bottom:18px;
-
-}
-
-/* Episodes */
-
-.episodes{
+    color:#999;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:12px;
-
-}
-
-.episode{
-
-    display:flex;
-
     align-items:center;
-
-    justify-content:space-between;
-
-    background:#151515;
-
-    border-radius:16px;
-
-    padding:16px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    border:1px solid rgba(255,255,255,.05);
-
-}
-
-.episode:hover{
-
-    background:#1d1d1d;
-
-    transform:translateX(4px);
-
-}
-
-.ep-left{
-
-    display:flex;
-
-    gap:14px;
-
-    align-items:center;
-
-}
-
-.ep-icon{
-
-    width:48px;
-
-    height:48px;
-
-    border-radius:12px;
-
-    background:#e50914;
-
-    display:flex;
 
     justify-content:center;
 
-    align-items:center;
+    gap:4px;
 
-    font-size:18px;
+    cursor:pointer;
 
-}
+    transition:.3s;
 
-.ep-title{
-
-    font-weight:600;
+    width:70px;
 
 }
 
-.ep-meta{
+.nav button i{
 
-    color:#999;
-
-    font-size:13px;
-
-    margin-top:4px;
+    font-size:22px;
 
 }
 
-/* Similar Series */
+.nav button span{
 
-.similar{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-
-    gap:14px;
+    font-size:11px;
 
 }
 
-.similar-card{
+.nav button:hover{
 
-    background:#151515;
+    color:white;
+
+}
+
+.nav button.active{
+
+    color:#e50914;
+
+}
+
+.nav button.active i{
+
+    transform:scale(1.15);
+
+}
+
+.search {
+  padding:16px;
+}
+.search input, .search select {
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:#0f172a;
+  color:#fff;
+  font-size:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+
+.series{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:12px;
+}
+
+.card{
+
+    background:#171717;
 
     border-radius:16px;
 
     overflow:hidden;
 
-    cursor:pointer;
-
     transition:.25s;
 
 }
 
-.similar-card:hover{
-
-    transform:translateY(-5px);
-
+.card:hover {
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 15px 35px rgba(0,0,0,.6);
 }
-
-.similar-card img{
-
-    width:100%;
-
-    aspect-ratio:2/3;
-
-    object-fit:cover;
-
+.card img{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  display:block;
 }
-
-.similar-info{
-
-    padding:10px;
-
+.badge {
+  position:absolute;
+  top:8px;
+  left:8px;
+  padding:4px 8px;
+  font-size:10px;
+  font-weight:bold;
+  border-radius:6px;
+  text-transform:uppercase;
+  box-shadow:0 2px 10px rgba(0,0,0,.6);
 }
+.badge.free{background:#22c55e}
+.badge.premium{background:#ef4444}
+.info {
+  padding:8px;
+}
+.title{
 
-.similar-title{
+    color:white;
 
-    font-size:14px;
+    font-size:15px;
 
     font-weight:600;
 
-    color:#fff;
+    margin-bottom:6px;
 
 }
+.meta{
 
-/* Toast */
+    color:#9ca3af;
 
-.toast{
+    font-size:12px;
 
-    position:fixed;
-
-    left:50%;
-
-    bottom:30px;
-
-    transform:translateX(-50%) translateY(100px);
-
-    background:#181818;
-
-    color:#fff;
-
-    padding:14px 20px;
-
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    transition:.35s;
-
-    opacity:0;
-
-    z-index:9999;
+    line-height:1.5;
 
 }
+body{
 
-.toast.show{
-
-    opacity:1;
-
-    transform:translateX(-50%) translateY(0);
+    padding-bottom:90px;
 
 }
+.watch {
+  width:100%;
+  padding:9px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+  font-weight:bold;
+  font-size:12px;
+  cursor:pointer;
+  transition:.25s;
+}
+@media (min-width:768px){
 
-/* Loading */
-
-.loading{
-
-    text-align:center;
-
-    padding:80px 20px;
-
-    color:#999;
+  .movies{
+    grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
+  }
 
 }
-
-@media(max-width:768px){
-
-.hero{
-
-    height:220px;
-
-}
-
-.title{
-
-    font-size:24px;
-
-}
-
-.actions{
-
-    grid-template-columns:1fr;
-
-}
-
-.similar{
-
-    grid-template-columns:repeat(2,1fr);
-
-}
-
-}
-
+.watch:hover { transform:scale(1.03); }
 </style>
 </head>
-
 <body>
 
-<div class="hero">
-
-    <img id="heroImage" src="" alt="Series Banner">
-
-    <div class="top-buttons">
-
-        <button class="circle-btn" onclick="history.back()">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-
-        <button class="circle-btn" id="favoriteBtn">
-            <i class="far fa-heart"></i>
-        </button>
-
-    </div>
-
+<div class="logo">
+<img src="images/logo.png" alt="Dj Star Movies">
 </div>
 
-<div class="details">
+<div class="nav">
+<button onclick="location.href='index.html'">
+<i class="fas fa-house"></i>
+<span>Home</span>
+</button>
 
-    <h1 class="title" id="title">
-        Loading...
-    </h1>
+<button onclick="location.href='movies.html'">
+    <i class="fas fa-film"></i>
+    <span>Movies</span>
+</button>
 
-    <div class="meta">
+<button class="active">
+    <i class="fas fa-tv"></i>
+    <span>Series</span>
+</button>
 
-        <span id="rating">⭐ --</span>
-
-        <span id="genre">Genre</span>
-
-        <span id="year">Year</span>
-
-        <span id="country">Country</span>
-
-    </div>
-
-    <p class="synopsis" id="synopsis">
-        Loading series information...
-    </p>
-
-    <div class="actions">
-
-        <button class="action-btn play-btn" id="playBtn">
-            <i class="fas fa-play"></i>
-            Play
-        </button>
-
-        <button class="action-btn favorite-btn" id="myListBtn">
-            <i class="fas fa-heart"></i>
-            My List
-        </button>
-
-        <button class="action-btn share-btn" id="shareBtn">
-            <i class="fas fa-share-alt"></i>
-            Share
-        </button>
-
-    </div>
-
+<button onclick="location.href='my-account.html'">
+<i class="fas fa-user"></i>
+<span>Account</span>
+</button>
 </div>
 
-<section class="section">
+<div class="search">
+  <input id="search" placeholder="🔍 Search Series......">
+  <select id="genreFilter">
+    <option value="ALL">All Genres</option>
+    <option value="ACTION">Action</option>
+    <option value="COMEDY">Comedy</option>
+    <option value="DRAMA">Drama</option>
+    <option value="HORROR">Horror</option>
+    <option value="ROMANCE">Romance</option>
+    <option value="SCI-FI">SCI-FI</option>
+  </select>
+</div>
 
-    <h2 class="section-title">
-        Episodes
-    </h2>
-
-    <div class="episodes" id="episodesList">
-
-        <div class="loading">
-            Loading episodes...
-        </div>
-
-    </div>
-
-</section>
-
-<section class="section" style="margin-top:40px;">
-
-    <h2 class="section-title">
-        More Like This
-    </h2>
-
-    <div class="similar" id="similarSeries">
-
-        <div class="loading">
-            Loading recommendations...
-        </div>
-    </div>
-
-</section>
-
-<div class="toast" id="toast"></div>
+<div class="series" id="list"></div>
 
 <script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+const supabaseUrl = 'https://rjjsdqikvtzhnpmdouir.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-// ==========================
-// SUPABASE
-// ==========================
+const box = document.getElementById("list");
+const search = document.getElementById("search");
+const genreSelect = document.getElementById("genreFilter");
+let activeGenre = null;
+let SERIES = [];
 
-const supabase = createClient(
 
-"https://rjjsdqikvtzhnpmdouir.supabase.co",
+function render(data){
 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk"
+  box.innerHTML = "";
 
-);
+  if(!data || data.length===0){
+    box.innerHTML="<p>No series available.</p>";
+    return;
+  }
 
-// ==========================
-// VARIABLES
-// ==========================
+  data.forEach(m=>{
 
-const params = new URLSearchParams(location.search);
+    const c = document.createElement("div");
+    c.className = "card";
 
-const seriesId = params.get("id");
+    c.onclick = () => {
+      location.href = `series-details.html?id=${m.id}`;
+    };
 
-let currentSeries = null;
 
-// Replace later with authenticated user id
-const USER_ID = "demo-user";
+    c.innerHTML = `
+      <div style="position:relative">
+        <img src="${m.poster_url}" alt="${m.title}">
+      </div>
 
-// ==========================
-// TOAST
-// ==========================
+      <div class="info">
+        <div class="title">${m.title}</div>
 
-function showToast(message){
+        <div class="meta">
+          ${m.country || ''} • ${m.year || ''} • <br>
 
-    const toast = document.getElementById("toast");
+📺 ${m.episodes || 0} Episodes
 
-    toast.textContent = message;
+<br>
 
-    toast.classList.add("show");
-
-    setTimeout(()=>{
-
-        toast.classList.remove("show");
-
-    },2500);
-
-}
-
-// ==========================
-// LOAD SERIES
-// ==========================
-
-async function loadSeries(){
-
-    const { data, error } = await supabase
-
-    .from("series")
-
-    .select("*")
-
-    .eq("id",seriesId)
-
-    .single();
-
-    if(error || !data){
-
-        document.body.innerHTML = `
-        <div style="
-        padding:80px 20px;
-        text-align:center;
-        color:#999;">
-        <h2>Series not found</h2>
+🎭 ${m.genre || ''}
+          <br>👁 ${m.views || 0} views
         </div>
-        `;
+      </div>
+    `;
 
-        return;
+    box.appendChild(c);
 
-    }
-
-    currentSeries = data;
-
-    // Increase view count
-
-    await supabase
-
-    .from("series")
-
-    .update({
-
-        views:(data.views || 0)+1
-
-    })
-
-    .eq("id",seriesId);
-
-    // Populate page
-
-    document.getElementById("heroImage").src =
-    data.horizontal_poster || data.poster || "";
-
-    document.getElementById("title").textContent =
-    data.title;
-
-    document.getElementById("genre").textContent =
-    data.genre || "Unknown";
-
-    document.getElementById("year").textContent =
-    data.year || "-";
-
-    document.getElementById("country").textContent =
-    data.country || "-";
-
-    document.getElementById("rating").textContent =
-    "⭐ " + (data.rating || "N/A");
-
-    document.getElementById("synopsis").textContent =
-    data.synopsis || "No synopsis available.";
-
-    loadEpisodes();
-
-    loadSimilar();
+  });
 
 }
 
-// ==========================
-// LOAD EPISODES
-// ==========================
-
-async function loadEpisodes(){
-
-    const box = document.getElementById("episodesList");
-
-    box.innerHTML = "";
-
-    const { data, error } = await supabase
-
-    .from("episodes")
-
-    .select("*")
-
-    .eq("series_id",seriesId)
-
-    .order("episode_number",{ascending:true});
-
-    if(error || !data || data.length===0){
-
-        box.innerHTML = `
-        <div class="loading">
-        No episodes available.
-        </div>
-        `;
-
-        return;
-
-    }
-
-    data.forEach(ep=>{
-
-        const card = document.createElement("div");
-
-        card.className = "episode";
-
-        card.innerHTML = `
-
-        <div class="ep-left">
-
-            <div class="ep-icon">
-
-                <i class="fas fa-play"></i>
-
-            </div>
-
-            <div>
-
-                <div class="ep-title">
-
-                    Episode ${ep.episode_number}
-
-                </div>
-
-                <div class="ep-meta">
-
-                    ${ep.title || ""}
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <i class="fas fa-chevron-right"></i>
-
-        `;
-
-        card.onclick = ()=>{
-
-            location.href =
-            "episode-player.html?id="+ep.id;
-
-        };
-
-        box.appendChild(card);
-
-    });
-
-}
-// ==========================
-// LOAD SIMILAR SERIES
-// ==========================
-
-async function loadSimilar(){
-
-    const box = document.getElementById("similarSeries");
-
-    box.innerHTML = "";
-
-    const { data, error } = await supabase
-
-    .from("series")
-
-    .select("*")
-
-    .eq("genre", currentSeries.genre)
-
-    .neq("id", seriesId)
-
-    .limit(8);
-
-    if(error || !data || data.length === 0){
-
-        box.innerHTML = `
-        <div class="loading">
-            No similar series found.
-        </div>
-        `;
-
-        return;
-
-    }
-
-    data.forEach(item=>{
-
-        const card = document.createElement("div");
-
-        card.className = "similar-card";
-
-        card.innerHTML = `
-            <img src="${item.poster || ''}" alt="${item.title}">
-            <div class="similar-info">
-                <div class="similar-title">
-                    ${item.title}
-                </div>
-            </div>
-        `;
-
-        card.onclick = ()=>{
-
-            location.href =
-            "series-details.html?id=" + item.id;
-
-        };
-
-        box.appendChild(card);
-
-    });
-
+function applyFilters(){
+  let filtered = [...SERIES];
+  if(activeGenre){
+    filtered = filtered.filter(m => m.genre && m.genre.toLowerCase() === activeGenre.toLowerCase());
+  }
+  const q = search.value.trim().toLowerCase();
+  if(q){
+    filtered = filtered.filter(m => m.title.toLowerCase().includes(q));
+  }
+  render(filtered);
 }
 
-
-// ==========================
-// PLAY FIRST EPISODE
-// ==========================
-
-document.getElementById("playBtn").onclick = async ()=>{
-
-    const { data } = await supabase
-
-    .from("episodes")
-
-    .select("*")
-
-    .eq("series_id",seriesId)
-
-    .order("episode_number",{ascending:true})
-
-    .limit(1);
-
-    if(data && data.length){
-
-        location.href =
-        "episode-player.html?id=" + data[0].id;
-
-    }else{
-
-        showToast("No episodes available.");
-
-    }
-
-};
-
-
-// ==========================
-// FAVORITES
-// ==========================
-
-document.getElementById("favoriteBtn").onclick = toggleFavorite;
-
-document.getElementById("myListBtn").onclick = toggleFavorite;
-
-async function toggleFavorite(){
-
-    const { data } = await supabase
-
-    .from("favorites")
-
-    .select("*")
-
-    .eq("user_id",USER_ID)
-
-    .eq("series_id",seriesId);
-
-    if(data && data.length){
-
-        await supabase
-
-        .from("favorites")
-
-        .delete()
-
-        .eq("user_id",USER_ID)
-
-        .eq("series_id",seriesId);
-
-        document.querySelector("#favoriteBtn i").className =
-        "far fa-heart";
-
-        showToast("Removed from My List");
-
-    }else{
-
-        await supabase
-
-        .from("favorites")
-
-        .insert({
-
-            user_id:USER_ID,
-
-            series_id:seriesId
-
-        });
-
-        document.querySelector("#favoriteBtn i").className =
-        "fas fa-heart";
-
-        showToast("Added to My List");
-
-    }
-
+search.oninput = applyFilters;
+genreSelect.onchange = () => {
+  const val = genreSelect.value;
+  activeGenre = val==="ALL"?null:val;
+  applyFilters();
 }
 
+async function loadMovies(){
+  const { data, error } = await supabase
+    .from('series')
+    .select('*')
+    .order('created_at',{ascending:false}); // newest first
+  if(error){ console.error(error); box.innerHTML="<p>Failed to load movies.</p>"; return; }
+  if(!data || data.length===0){ box.innerHTML="<p>No movies available.</p>"; return; }
+SERIES = data;
+render(SERIES);
+}
 
-// ==========================
-// SHARE
-// ==========================
-
-document.getElementById("shareBtn").onclick = ()=>{
-
-    const text = `🎬 ${currentSeries.title}
-
-${currentSeries.synopsis || ""}
-
-Watch now on Dj Star Movies
-
-${location.href}`;
-
-    if(navigator.share){
-
-        navigator.share({
-
-            title:currentSeries.title,
-
-            text:text,
-
-            url:location.href
-
-        });
-
-    }else{
-
-        navigator.clipboard.writeText(location.href);
-
-        showToast("Link copied to clipboard");
-
-    }
-
-};
-
-
-// ==========================
-// PAGE START
-// ==========================
-
-loadSeries();
-
+loadMovies();
 </script>
 
 </body>
-
 </html>
