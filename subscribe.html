@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dj Star Movies - Subscription</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+
+background:#080808;
+color:white;
+padding:25px;
+
+}
+
+.header{
+
+text-align:center;
+margin-bottom:35px;
+
+}
+
+.logo{
+
+width:80px;
+height:80px;
+border-radius:20px;
+margin-bottom:15px;
+
+}
+
+h1{
+
+font-size:30px;
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+color:#aaa;
+line-height:1.6;
+
+}
+
+.package{
+
+background:#141414;
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:22px;
+margin-bottom:20px;
+transition:.3s;
+cursor:pointer;
+
+}
+
+.package:hover{
+
+transform:translateY(-5px);
+border-color:#e50914;
+
+}
+
+.package.active{
+
+border:2px solid #e50914;
+box-shadow:0 0 25px rgba(229,9,20,.35);
+
+}
+
+.plan{
+
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+
+}
+
+.price{
+
+font-size:34px;
+font-weight:bold;
+color:#e50914;
+margin-bottom:8px;
+
+}
+
+.price span{
+
+font-size:16px;
+color:#999;
+
+}
+
+.features{
+
+margin-top:15px;
+
+}
+
+.features div{
+
+margin:10px 0;
+color:#ddd;
+
+}
+
+button{
+
+width:100%;
+margin-top:30px;
+padding:18px;
+border:none;
+border-radius:18px;
+background:#e50914;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+
+}
+
+button:hover{
+
+background:#ff1e2d;
+
+}
+
+.payment{
+
+margin-top:30px;
+padding:20px;
+background:#111;
+border-radius:18px;
+text-align:center;
+color:#bbb;
+
+}
+
+.payment i{
+
+font-size:40px;
+margin-bottom:15px;
+color:#00c853;
+
+}
+
+.note{
+
+margin-top:12px;
+font-size:14px;
+color:#888;
+
+}
+
+.toast{
+
+position:fixed;
+bottom:30px;
+left:50%;
+transform:translateX(-50%) translateY(100px);
+background:#1d1d1d;
+padding:14px 22px;
+border-radius:12px;
+opacity:0;
+transition:.35s;
+
+}
+
+.toast.show{
+
+opacity:1;
+transform:translateX(-50%) translateY(0);
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+
+<img src="images/logo.png" class="logo">
+
+<h1>Choose Your Plan</h1>
+
+<p class="subtitle">
+
+Unlimited movies and TV series.<br>
+
+Watch anywhere. Cancel anytime.
+
+</p>
+
+</div>
+
+<div class="package active" data-price="350">
+
+<div class="plan">
+
+1 Month
+
+</div>
+
+<div class="price">
+
+KES 350
+
+</div>
+
+<div class="features">
+
+<div>✔ Unlimited Movies</div>
+
+<div>✔ Unlimited Series</div>
+
+<div>✔ HD Streaming</div>
+
+<div>✔ Mobile & Desktop Access</div>
+
+</div>
+
+</div>
+
+<div class="package" data-price="600">
+
+<div class="plan">
+
+2 Months
+
+</div>
+
+<div class="price">
+
+KES 600
+
+</div>
+
+<div class="features">
+
+<div>✔ Unlimited Movies</div>
+
+<div>✔ Unlimited Series</div>
+
+<div>✔ HD Streaming</div>
+
+<div>✔ Save KES 100</div>
+
+</div>
+
+</div>
+
+<div class="package" data-price="1750">
+
+<div class="plan">
+
+6 Months
+
+</div>
+
+<div class="price">
+
+KES 1,750
+
+</div>
+
+<div class="features">
+
+<div>✔ Unlimited Movies</div>
+
+<div>✔ Unlimited Series</div>
+
+<div>✔ HD Streaming</div>
+
+<div>✔ Great Value</div>
+
+</div>
+
+</div>
+
+<div class="package" data-price="3200">
+
+<div class="plan">
+
+12 Months
+
+</div>
+
+<div class="price">
+
+KES 3,200
+
+</div>
+
+<div class="features">
+
+<div>✔ Unlimited Movies</div>
+
+<div>✔ Unlimited Series</div>
+
+<div>✔ HD Streaming</div>
+
+<div>✔ Best Value</div>
+
+</div>
+
+</div>
+
+<button id="subscribeBtn">
+
+Continue to Payment
+
+</button>
+
+<div class="payment">
+
+<i class="fas fa-mobile-alt"></i>
+
+<h3>Pay with Mobile Money</h3>
+
+<p>
+
+Secure payments using your local Mobile Money service.
+
+</p>
+
+<div class="note">
+
+M-Pesa integration will be connected later.
+
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+let selectedPrice=350;
+
+document.querySelectorAll(".package").forEach(card=>{
+
+card.onclick=()=>{
+
+document.querySelectorAll(".package").forEach(c=>{
+
+c.classList.remove("active");
+
+});
+
+card.classList.add("active");
+
+selectedPrice=card.dataset.price;
+
+};
+
+});
+
+function toast(message){
+
+const t=document.getElementById("toast");
+
+t.textContent=message;
+
+t.classList.add("show");
+
+setTimeout(()=>{
+
+t.classList.remove("show");
+
+},2500);
+
+}
+
+document.getElementById("subscribeBtn").onclick=()=>{
+
+toast("Proceeding to payment...");
+
+// Later:
+// location.href="checkout.html?amount="+selectedPrice;
+
+};
+
+</script>
+
+</body>
+</html>
+
+
