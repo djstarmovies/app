@@ -1,366 +1,1223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<title>Dj Star Movies - Series</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>DJ STAR MOVIES - Series Details</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-* { box-sizing:border-box }
-body {
-  margin:0;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color:#e5e7eb;
-  font-family:'Poppins', sans-serif;
-  overflow-x:hidden;
-}
-.logo {
-  display:flex;
-  justify-content:center;
-  padding:16px 10px 6px;
-  z-index:10;
-  position:relative;
-}
-.logo img {
-  height:50px;
-  border-radius:12px;
-}
-.card img{
-  transition:.35s;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
 }
 
-.card:hover img{
-  transform:scale(1.05);
-}
-  .logo img {
-  height:50px;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(56,189,248,0.3);
-}
-.nav{
-
-    position:fixed;
-
-    left:15px;
-
-    right:15px;
-
-    bottom:15px;
-
-    height:68px;
-
-    background:#151515;
-
-    border-radius:22px;
-
-    display:flex;
-
-    justify-content:space-around;
-
-    align-items:center;
-
-    box-shadow:0 10px 35px rgba(0,0,0,.45);
-
-    z-index:999;
-
+html{
+scroll-behavior:smooth;
 }
 
-.nav button{
+body{
+background:#090909;
+color:#fff;
+padding-bottom:90px;
+}
 
-    background:none;
+/* HERO */
 
-    border:none;
+.hero{
+position:relative;
+height:330px;
+overflow:hidden;
+background:#111;
+}
 
-    color:#999;
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 
-    display:flex;
+.hero:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,#090909 5%,rgba(0,0,0,.2),rgba(0,0,0,.5));
+}
 
-    flex-direction:column;
+/* TOP BUTTONS */
 
-    align-items:center;
+.top-buttons{
 
-    justify-content:center;
+position:absolute;
 
-    gap:4px;
+top:20px;
 
-    cursor:pointer;
+left:20px;
 
-    transition:.3s;
+right:20px;
 
-    width:70px;
+display:flex;
+
+justify-content:space-between;
+
+z-index:5;
 
 }
 
-.nav button i{
+.circle-btn{
 
-    font-size:22px;
+width:48px;
 
-}
+height:48px;
 
-.nav button span{
+border:none;
 
-    font-size:11px;
+border-radius:50%;
 
-}
+background:rgba(0,0,0,.55);
 
-.nav button:hover{
+backdrop-filter:blur(12px);
 
-    color:white;
+color:#fff;
 
-}
+cursor:pointer;
 
-.nav button.active{
+font-size:18px;
 
-    color:#e50914;
-
-}
-
-.nav button.active i{
-
-    transform:scale(1.15);
+transition:.3s;
 
 }
 
-.search {
-  padding:16px;
-}
-.search input, .search select {
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,0.1);
-  background:#0f172a;
-  color:#fff;
-  font-size:14px;
-  box-shadow:0 4px 12px rgba(0,0,0,.4);
-}
+.circle-btn:hover{
 
-.series{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  padding:12px;
-}
+background:#e50914;
 
-.card{
-
-    background:#171717;
-
-    border-radius:16px;
-
-    overflow:hidden;
-
-    transition:.25s;
+transform:scale(1.08);
 
 }
 
-.card:hover {
-  transform:translateY(-6px) scale(1.03);
-  box-shadow:0 15px 35px rgba(0,0,0,.6);
+/* PLAY */
+
+.play-overlay{
+
+position:absolute;
+
+left:50%;
+
+top:50%;
+
+transform:translate(-50%,-50%);
+
+width:95px;
+
+height:95px;
+
+border:none;
+
+border-radius:50%;
+
+background:#e50914;
+
+color:white;
+
+font-size:34px;
+
+cursor:pointer;
+
+z-index:5;
+
+box-shadow:0 0 35px rgba(229,9,20,.45);
+
+transition:.3s;
+
 }
-.card img{
-  width:100%;
-  aspect-ratio:2/3;
-  object-fit:cover;
-  display:block;
+
+.play-overlay:hover{
+
+transform:translate(-50%,-50%) scale(1.08);
+
 }
-.badge {
-  position:absolute;
-  top:8px;
-  left:8px;
-  padding:4px 8px;
-  font-size:10px;
-  font-weight:bold;
-  border-radius:6px;
-  text-transform:uppercase;
-  box-shadow:0 2px 10px rgba(0,0,0,.6);
+
+/* PLAYER */
+
+.player-box{
+
+display:none;
+
+padding:20px;
+
 }
-.badge.free{background:#22c55e}
-.badge.premium{background:#ef4444}
-.info {
-  padding:8px;
+
+.player-box video{
+
+width:100%;
+
+border-radius:16px;
+
+background:#000;
+
 }
+
+/* DETAILS */
+
+.details{
+
+margin-top:-30px;
+
+position:relative;
+
+z-index:2;
+
+padding:22px;
+
+}
+
 .title{
 
-    color:white;
+font-size:32px;
 
-    font-size:15px;
+font-weight:700;
 
-    font-weight:600;
-
-    margin-bottom:6px;
+margin-bottom:12px;
 
 }
+
 .meta{
 
-    color:#9ca3af;
+display:flex;
 
-    font-size:12px;
+flex-wrap:wrap;
 
-    line-height:1.5;
+gap:10px;
 
-}
-body{
-
-    padding-bottom:90px;
+margin-bottom:18px;
 
 }
-.watch {
-  width:100%;
-  padding:9px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#fff;
-  font-weight:bold;
-  font-size:12px;
-  cursor:pointer;
-  transition:.25s;
-}
-@media (min-width:768px){
 
-  .movies{
-    grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
-  }
+.meta span{
+
+background:#181818;
+
+padding:8px 14px;
+
+border-radius:30px;
+
+font-size:13px;
+
+color:#ddd;
 
 }
-.watch:hover { transform:scale(1.03); }
+
+.synopsis{
+
+color:#cfcfcf;
+
+line-height:1.8;
+
+margin-bottom:25px;
+
+}
+
+/* ACTION BUTTONS */
+
+.actions{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:12px;
+
+margin-bottom:28px;
+
+}
+
+.actions button{
+
+border:none;
+
+padding:15px;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:600;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.playBtn{
+
+background:#e50914;
+
+}
+
+.episodesBtn{
+
+background:#2563eb;
+
+}
+
+.favoriteBtn{
+
+background:#202020;
+
+}
+
+.shareBtn{
+
+background:#14532d;
+
+}
+
+.actions button:hover{
+
+transform:translateY(-3px);
+
+}
+
+/* EPISODES */
+
+.section{
+
+padding:0 22px;
+
+margin-top:15px;
+
+}
+
+.section-title{
+
+font-size:22px;
+
+margin-bottom:18px;
+
+}
+
+#episodesList{
+
+display:none;
+
+}
+
+.episode{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:16px;
+
+margin-bottom:12px;
+
+background:#171717;
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.episode:hover{
+
+background:#222;
+
+transform:translateX(4px);
+
+}
+
+.episode.active{
+
+border:2px solid #e50914;
+
+}
+
+.ep-left{
+
+display:flex;
+
+gap:15px;
+
+align-items:center;
+
+}
+
+.ep-icon{
+
+width:48px;
+
+height:48px;
+
+background:#e50914;
+
+border-radius:12px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.ep-title{
+
+font-weight:600;
+
+}
+
+.ep-sub{
+
+font-size:12px;
+
+color:#999;
+
+margin-top:3px;
+
+}
+
+/* PLAYER CONTROLS */
+
+.player-controls{
+
+display:none;
+
+gap:12px;
+
+padding:0 20px 20px;
+
+}
+
+.player-controls button{
+
+flex:1;
+
+padding:14px;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+background:#222;
+
+color:white;
+
+font-weight:600;
+
+}
+
+/* SIMILAR */
+
+.similar{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+
+gap:14px;
+
+}
+
+.similar-card{
+
+background:#171717;
+
+border-radius:14px;
+
+overflow:hidden;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.similar-card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.similar-card img{
+
+width:100%;
+
+aspect-ratio:2/3;
+
+object-fit:cover;
+
+}
+
+.similar-card p{
+
+padding:10px;
+
+font-size:14px;
+
+}
+
+/* TOAST */
+
+.toast{
+
+position:fixed;
+
+left:50%;
+
+bottom:25px;
+
+transform:translateX(-50%) translateY(100px);
+
+background:#181818;
+
+padding:14px 20px;
+
+border-radius:14px;
+
+opacity:0;
+
+transition:.35s;
+
+z-index:9999;
+
+}
+
+.toast.show{
+
+opacity:1;
+
+transform:translateX(-50%) translateY(0);
+
+}
+
+@media(max-width:768px){
+
+.hero{
+
+height:240px;
+
+}
+
+.actions{
+
+grid-template-columns:1fr;
+
+}
+
+.title{
+
+font-size:26px;
+
+}
+
+}
+
 </style>
+
 </head>
+
 <body>
 
-<div class="logo">
-<img src="images/logo.png" alt="Dj Star Movies">
+<div class="hero">
+
+<img id="banner" src="">
+
+<div class="top-buttons">
+
+<button class="circle-btn" onclick="history.back()">
+<i class="fas fa-arrow-left"></i>
+</button>
+
+<button class="circle-btn" id="favoriteIcon">
+<i class="far fa-heart"></i>
+</button>
+
 </div>
 
-<div class="nav">
-<button onclick="location.href='index.html'">
-<i class="fas fa-house"></i>
-<span>Home</span>
+<button class="play-overlay" id="playOverlay">
+<i class="fas fa-play"></i>
 </button>
 
-<button onclick="location.href='movies.html'">
-    <i class="fas fa-film"></i>
-    <span>Movies</span>
-</button>
-
-<button class="active">
-    <i class="fas fa-tv"></i>
-    <span>Series</span>
-</button>
-
-<button onclick="location.href='my-account.html'">
-<i class="fas fa-user"></i>
-<span>Account</span>
-</button>
 </div>
 
-<div class="search">
-  <input id="search" placeholder="🔍 Search Series......">
-  <select id="genreFilter">
-    <option value="ALL">All Genres</option>
-    <option value="ACTION">Action</option>
-    <option value="COMEDY">Comedy</option>
-    <option value="DRAMA">Drama</option>
-    <option value="HORROR">Horror</option>
-    <option value="ROMANCE">Romance</option>
-    <option value="SCI-FI">SCI-FI</option>
-  </select>
+<div class="player-box" id="playerBox">
+
+<video id="player" controls></video>
+
 </div>
 
-<div class="series" id="list"></div>
+<div class="player-controls" id="playerControls">
+
+<button id="prevEpisode">
+⏮ Previous
+</button>
+
+<button id="wideScreen">
+⛶ Wide Screen
+</button>
+
+<button id="nextEpisode">
+Next ⏭
+</button>
+
+</div>
+
+<div class="details">
+
+<h1 class="title" id="title">
+Loading...
+</h1>
+
+<div class="meta">
+
+<span id="genre">Genre</span>
+
+<span id="year">Year</span>
+
+<span id="country">Country</span>
+
+<span id="rating">⭐ --</span>
+
+<span id="views">👁 0</span>
+
+</div>
+
+<p class="synopsis" id="synopsis">
+
+Loading...
+
+</p>
+
+<div class="actions">
+
+<button class="playBtn" id="watchBtn">
+▶ Play
+</button>
+
+<button class="episodesBtn" id="episodesBtn">
+📺 Episodes
+</button>
+
+<button class="favoriteBtn" id="favoriteBtn">
+❤ My List
+</button>
+
+<button class="shareBtn" id="shareBtn">
+📤 Share
+</button>
+
+</div>
+
+</div>
+
+<section class="section">
+
+<h2 class="section-title">
+
+Episodes
+
+</h2>
+
+<div id="episodesList">
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+
+More Like This
+
+</h2>
+
+<div class="similar" id="similarSeries">
+
+</div>
+
+</section>
+
+<div class="toast" id="toast"></div>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabaseUrl = 'https://rjjsdqikvtzhnpmdouir.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const box = document.getElementById("list");
-const search = document.getElementById("search");
-const genreSelect = document.getElementById("genreFilter");
-let activeGenre = null;
-let SERIES = [];
+const supabase=createClient(
 
+"https://rjjsdqikvtzhnpmdouir.supabase.co",
 
-function render(data){
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk"
 
-  box.innerHTML = "";
+);
 
-  if(!data || data.length===0){
-    box.innerHTML="<p>No series available.</p>";
-    return;
-  }
+const params=new URLSearchParams(location.search);
 
-  data.forEach(m=>{
+const seriesId=params.get("id");
 
-    const c = document.createElement("div");
-    c.className = "card";
+let currentSeries=null;
+let episodes=[];
+let currentEpisode=0;
 
-    c.onclick = () => {
-      location.href = `series-details.html?id=${m.id}`;
-    };
+function toast(text){
 
+const t=document.getElementById("toast");
 
-    c.innerHTML = `
-      <div style="position:relative">
-        <img src="${m.poster_url}" alt="${m.title}">
-      </div>
+t.textContent=text;
 
-      <div class="info">
-        <div class="title">${m.title}</div>
+t.classList.add("show");
 
-        <div class="meta">
-          ${m.country || ''} • ${m.year || ''} • <br>
+setTimeout(()=>{
 
-📺 ${m.episodes || 0} Episodes
+t.classList.remove("show");
 
-<br>
+},2500);
 
-🎭 ${m.genre || ''}
-          <br>👁 ${m.views || 0} views
-        </div>
-      </div>
-    `;
+}
+async function loadSeries(){
 
-    box.appendChild(c);
+const {data,error}=await supabase
+.from("series")
+.select("*")
+.eq("id",seriesId)
+.single();
 
-  });
+if(error || !data){
+
+document.body.innerHTML="<h2 style='padding:40px;text-align:center'>Series not found.</h2>";
+
+return;
 
 }
 
-function applyFilters(){
-  let filtered = [...SERIES];
-  if(activeGenre){
-    filtered = filtered.filter(m => m.genre && m.genre.toLowerCase() === activeGenre.toLowerCase());
-  }
-  const q = search.value.trim().toLowerCase();
-  if(q){
-    filtered = filtered.filter(m => m.title.toLowerCase().includes(q));
-  }
-  render(filtered);
+currentSeries=data;
+
+// Increase views
+
+await supabase
+.from("series")
+.update({
+views:(data.views||0)+1
+})
+.eq("id",seriesId);
+
+// Fill page
+
+document.getElementById("banner").src=
+data.banner_url || data.horizontal_poster || data.poster_url;
+
+document.getElementById("title").textContent=
+data.title;
+
+document.getElementById("genre").textContent=
+data.genre || "Unknown";
+
+document.getElementById("year").textContent=
+data.year || "-";
+
+document.getElementById("country").textContent=
+data.country || "-";
+
+document.getElementById("rating").textContent=
+"⭐ "+(data.rating || "N/A");
+
+document.getElementById("views").textContent=
+"👁 "+((data.views||0)+1);
+
+document.getElementById("synopsis").textContent=
+data.synopsis || "No synopsis available.";
+
+loadEpisodes();
+
+loadSimilar();
+
 }
 
-search.oninput = applyFilters;
-genreSelect.onchange = () => {
-  const val = genreSelect.value;
-  activeGenre = val==="ALL"?null:val;
-  applyFilters();
+loadSeries();
+
+
+// ===========================
+// LOAD EPISODES
+// ===========================
+
+async function loadEpisodes(){
+
+const {data,error}=await supabase
+.from("episodes")
+.select("*")
+.eq("series_id",seriesId)
+.order("episode_number",{ascending:true});
+
+episodes=data || [];
+
+const box=document.getElementById("episodesList");
+
+box.innerHTML="";
+
+if(error || episodes.length===0){
+
+box.innerHTML="<p>No episodes available.</p>";
+
+return;
+
 }
 
-async function loadMovies(){
-  const { data, error } = await supabase
-    .from('series')
-    .select('*')
-    .order('created_at',{ascending:false}); // newest first
-  if(error){ console.error(error); box.innerHTML="<p>Failed to load movies.</p>"; return; }
-  if(!data || data.length===0){ box.innerHTML="<p>No movies available.</p>"; return; }
-SERIES = data;
-render(SERIES);
+episodes.forEach((ep,index)=>{
+
+const div=document.createElement("div");
+
+div.className="episode";
+
+div.dataset.index=index;
+
+div.innerHTML=`
+
+<div class="ep-left">
+
+<div class="ep-icon">
+
+<i class="fas fa-play"></i>
+
+</div>
+
+<div>
+
+<div class="ep-title">
+
+Episode ${ep.episode_number}
+
+</div>
+
+<div class="ep-sub">
+
+${ep.title || ""}
+
+</div>
+
+</div>
+
+</div>
+
+<i class="fas fa-chevron-right"></i>
+
+`;
+
+div.onclick=()=>playEpisode(index);
+
+box.appendChild(div);
+
+});
+
 }
 
-loadMovies();
+
+// ===========================
+// SHOW EPISODES
+// ===========================
+
+document.getElementById("episodesBtn").onclick=()=>{
+
+const list=document.getElementById("episodesList");
+
+list.style.display=
+list.style.display==="block"
+?"none"
+:"block";
+
+if(list.style.display==="block"){
+
+list.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+
+};
+
+
+// ===========================
+// PLAY EPISODE
+// ===========================
+
+function playEpisode(index){
+
+currentEpisode=index;
+
+const ep=episodes[index];
+
+const player=document.getElementById("player");
+
+document.querySelectorAll(".episode").forEach(e=>{
+
+e.classList.remove("active");
+
+});
+
+document.querySelector(
+
+`.episode[data-index="${index}"]`
+
+)?.classList.add("active");
+
+player.src=
+ep.video_url || ep.video || "";
+
+document.getElementById("playerBox").style.display="block";
+
+document.getElementById("playerControls").style.display="flex";
+
+player.load();
+
+player.play();
+
+document.getElementById("playerBox").scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+<!-- ===========================
+PLAYER CONTROLS
+=========================== -->
+
+document.getElementById("watchBtn").onclick = () => {
+
+    if (episodes.length > 0) {
+
+        playEpisode(0);
+
+    } else {
+
+        toast("No episodes available.");
+
+    }
+
+};
+
+document.getElementById("playOverlay").onclick = () => {
+
+    if (episodes.length > 0) {
+
+        playEpisode(0);
+
+    } else {
+
+        toast("No episodes available.");
+
+    }
+
+};
+
+
+// Previous Episode
+
+document.getElementById("prevEpisode").onclick = () => {
+
+    if (currentEpisode > 0) {
+
+        playEpisode(currentEpisode - 1);
+
+    }
+
+};
+
+
+// Next Episode
+
+document.getElementById("nextEpisode").onclick = () => {
+
+    if (currentEpisode < episodes.length - 1) {
+
+        playEpisode(currentEpisode + 1);
+
+    }
+
+};
+
+
+// Wide Screen
+
+document.getElementById("wideScreen").onclick = () => {
+
+    const player = document.getElementById("player");
+
+    if (player.requestFullscreen) {
+
+        player.requestFullscreen();
+
+    } else if (player.webkitRequestFullscreen) {
+
+        player.webkitRequestFullscreen();
+
+    } else if (player.msRequestFullscreen) {
+
+        player.msRequestFullscreen();
+
+    }
+
+};
+
+
+// ===========================
+// FAVORITES
+// ===========================
+
+document.getElementById("favoriteBtn").onclick = toggleFavorite;
+document.getElementById("favoriteIcon").onclick = toggleFavorite;
+
+function toggleFavorite() {
+
+    let fav = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    if (fav.includes(seriesId)) {
+
+        fav = fav.filter(id => id != seriesId);
+
+        toast("Removed from My List ❤️");
+
+    } else {
+
+        fav.push(seriesId);
+
+        toast("Added to My List ❤️");
+
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(fav));
+
+}
+
+
+// ===========================
+// SHARE
+// ===========================
+
+document.getElementById("shareBtn").onclick = async () => {
+
+    const text =
+`${currentSeries.title}
+
+${currentSeries.synopsis || ""}
+
+Watch now on DJ STAR MOVIES`;
+
+    if (navigator.share) {
+
+        navigator.share({
+
+            title: currentSeries.title,
+
+            text: text,
+
+            url: location.href
+
+        });
+
+    } else {
+
+        await navigator.clipboard.writeText(location.href);
+
+        toast("Series link copied.");
+
+    }
+
+};
+// ===========================
+// LOAD SIMILAR SERIES
+// ===========================
+
+async function loadSimilar(){
+
+    const box = document.getElementById("similarSeries");
+
+    box.innerHTML = "";
+
+    const { data, error } = await supabase
+        .from("series")
+        .select("*")
+        .eq("genre", currentSeries.genre)
+        .neq("id", seriesId)
+        .limit(8);
+
+    if(error || !data || data.length === 0){
+
+        box.innerHTML = "<p style='color:#999'>No similar series found.</p>";
+
+        return;
+
+    }
+
+    data.forEach(item=>{
+
+        const card = document.createElement("div");
+
+        card.className = "similar-card";
+
+        card.innerHTML = `
+
+            <img src="${item.poster_url || item.banner_url || item.horizontal_poster}" alt="${item.title}">
+
+            <p>${item.title}</p>
+
+        `;
+
+        card.onclick = ()=>{
+
+            location.href = `series-details.html?id=${item.id}`;
+
+        };
+
+        box.appendChild(card);
+
+    });
+
+}
+
+
+// ===========================
+// AUTO PLAY NEXT EPISODE
+// ===========================
+
+document.getElementById("player").addEventListener("ended",()=>{
+
+    if(currentEpisode < episodes.length-1){
+
+        playEpisode(currentEpisode+1);
+
+    }else{
+
+        toast("Series finished.");
+
+    }
+
+});
+
+
+// ===========================
+// RESTORE FAVORITE ICON
+// ===========================
+
+const savedFav = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+if(savedFav.includes(seriesId)){
+
+    document.querySelector("#favoriteBtn i").className = "fas fa-heart";
+    document.querySelector("#favoriteIcon i").className = "fas fa-heart";
+
+}
+
+
+// ===========================
+// UPDATE HEART ICON
+// ===========================
+
+function refreshFavoriteIcon(){
+
+    const fav = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    const icon1 = document.querySelector("#favoriteBtn i");
+    const icon2 = document.querySelector("#favoriteIcon i");
+
+    if(fav.includes(seriesId)){
+
+        icon1.className = "fas fa-heart";
+        icon2.className = "fas fa-heart";
+
+    }else{
+
+        icon1.className = "far fa-heart";
+        icon2.className = "far fa-heart";
+
+    }
+
+}
+
+refreshFavoriteIcon();
+
+
+// ===========================
+// REFRESH ICON AFTER TOGGLING
+// ===========================
+
+const originalToggle = toggleFavorite;
+
+toggleFavorite = function(){
+
+    originalToggle();
+
+    refreshFavoriteIcon();
+
+};
+
+
+// ===========================
+// KEYBOARD SHORTCUTS
+// ===========================
+
+document.addEventListener("keydown",e=>{
+
+    if(e.code==="ArrowRight"){
+
+        if(currentEpisode < episodes.length-1){
+
+            playEpisode(currentEpisode+1);
+
+        }
+
+    }
+
+    if(e.code==="ArrowLeft"){
+
+        if(currentEpisode>0){
+
+            playEpisode(currentEpisode-1);
+
+        }
+
+    }
+
+    if(e.code==="Space"){
+
+        e.preventDefault();
+
+        const player=document.getElementById("player");
+
+        if(player.paused){
+
+            player.play();
+
+        }else{
+
+            player.pause();
+
+        }
+
+    }
+
+});
+
 </script>
 
 </body>
