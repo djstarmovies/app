@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ STAR MOVIES - Movie Details</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0b0b0b;
+color:#fff;
+padding-bottom:90px;
+}
+
+.hero{
+position:relative;
+width:100%;
+height:320px;
+overflow:hidden;
+background:#111;
+}
+
+.hero img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+top:0;
+background:linear-gradient(to top,#0b0b0b 0%,rgba(0,0,0,.25) 50%,rgba(0,0,0,.45) 100%);
+}
+
+.back-btn{
+position:absolute;
+top:20px;
+left:20px;
+width:48px;
+height:48px;
+border-radius:50%;
+border:none;
+background:rgba(0,0,0,.55);
+color:#fff;
+font-size:18px;
+cursor:pointer;
+z-index:5;
+backdrop-filter:blur(8px);
+}
+
+.play-overlay{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:90px;
+height:90px;
+border-radius:50%;
+border:none;
+background:#e50914;
+color:#fff;
+font-size:34px;
+cursor:pointer;
+z-index:5;
+box-shadow:0 0 35px rgba(229,9,20,.45);
+transition:.3s;
+}
+
+.play-overlay:hover{
+transform:translate(-50%,-50%) scale(1.08);
+}
+
+.details{
+padding:22px;
+margin-top:-25px;
+position:relative;
+z-index:2;
+}
+
+h1{
+font-size:32px;
+margin-bottom:14px;
+}
+
+.meta{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:18px;
+}
+
+.meta span{
+background:#191919;
+padding:8px 14px;
+border-radius:30px;
+font-size:13px;
+color:#ddd;
+}
+
+.synopsis{
+line-height:1.8;
+color:#ccc;
+margin-bottom:25px;
+}
+
+.actions{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-bottom:35px;
+}
+
+.actions button{
+border:none;
+border-radius:14px;
+padding:15px;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+color:#fff;
+transition:.3s;
+}
+
+.watch{
+background:#e50914;
+}
+
+.favorite{
+background:#202020;
+}
+
+.share{
+background:#1e3a8a;
+}
+
+.actions button:hover{
+transform:translateY(-3px);
+}
+
+.section{
+padding:0 22px;
+margin-top:20px;
+}
+
+.section h2{
+margin-bottom:16px;
+font-size:22px;
+}
+
+.similar{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+gap:14px;
+}
+
+.card{
+background:#151515;
+border-radius:14px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card img{
+width:100%;
+aspect-ratio:2/3;
+object-fit:cover;
+}
+
+.card p{
+padding:10px;
+font-size:14px;
+font-weight:600;
+}
+
+@media(max-width:768px){
+
+.hero{
+height:250px;
+}
+
+.actions{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<img id="banner" src="" alt="Movie Banner">
+
+<button class="back-btn" onclick="history.back()">
+<i class="fas fa-arrow-left"></i>
+</button>
+
+<button class="play-overlay" id="playOverlay">
+<i class="fas fa-play"></i>
+</button>
+
+</div>
+
+<div class="details">
+
+<h1 id="title">Loading...</h1>
+
+<div class="meta">
+
+<span id="year">Year</span>
+
+<span id="genre">Genre</span>
+
+<span id="country">Country</span>
+
+<span id="rating">⭐ --</span>
+
+<span id="views">👁 0</span>
+
+</div>
+
+<p class="synopsis" id="synopsis">
+Loading movie...
+</p>
+
+<div class="actions">
+
+<button class="watch" id="watchBtn">
+<i class="fas fa-play"></i>
+ Watch Now
+</button>
+
+<button class="favorite" id="favBtn">
+<i class="fas fa-heart"></i>
+ My List
+</button>
+
+<button class="share" id="shareBtn">
+<i class="fas fa-share-alt"></i>
+ Share
+</button>
+
+</div>
+
+</div>
+
+<section class="section">
+
+<h2>More Like This</h2>
+
+<div class="similar" id="similarMovies">
+
+</div>
+
+</section>
+
+<script type="module">
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase=createClient(
+
+"https://rjjsdqikvtzhnpmdouir.supabase.co",
+
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk';
+
+);
+
+const params=new URLSearchParams(location.search);
+
+const id=params.get("id");
+
+let movie=null;
+
+async function loadMovie(){
+
+const {data,error}=await supabase
+
+.from("movies")
+
+.select("*")
+
+.eq("id",id)
+
+.single();
+
+if(error || !data){
+
+document.body.innerHTML="<h2 style='padding:40px;text-align:center'>Movie not found.</h2>";
+
+return;
+
+}
+
+movie=data;
+
+await supabase
+
+.from("movies")
+
+.update({
+
+views:(movie.views||0)+1
+
+})
+
+.eq("id",id);
+
+document.getElementById("banner").src=
+
+movie.banner_url || movie.poster_url;
+
+document.getElementById("title").textContent=
+
+movie.title;
+
+document.getElementById("year").textContent=
+
+movie.year || "-";
+
+document.getElementById("genre").textContent=
+
+movie.genre || "-";
+
+document.getElementById("country").textContent=
+
+movie.country || "-";
+
+document.getElementById("rating").textContent=
+
+"⭐ "+(movie.rating || "N/A");
+
+document.getElementById("views").textContent=
+
+"👁 "+((movie.views||0)+1);
+
+document.getElementById("synopsis").textContent=
+
+movie.synopsis || "No synopsis available.";
+
+loadSimilar();
+
+}
+
+async function loadSimilar(){
+
+const {data}=await supabase
+
+.from("movies")
+
+.select("*")
+
+.eq("genre",movie.genre)
+
+.neq("id",movie.id)
+
+.limit(6);
+
+const box=document.getElementById("similarMovies");
+
+box.innerHTML="";
+
+if(!data)return;
+
+data.forEach(item=>{
+
+box.innerHTML+=`
+
+<div class="card"
+
+onclick="location.href='movie-details.html?id=${item.id}'">
+
+<img src="${item.poster_url}">
+
+<p>${item.title}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("watchBtn").onclick=()=>{
+
+location.href=`cinema.html?id=${id}`;
+
+};
+
+document.getElementById("playOverlay").onclick=()=>{
+
+location.href=`cinema.html?id=${id}`;
+
+};
+
+document.getElementById("shareBtn").onclick=()=>{
+
+if(navigator.share){
+
+navigator.share({
+
+title:movie.title,
+
+text:movie.synopsis,
+
+url:location.href
+
+});
+
+}else{
+
+navigator.clipboard.writeText(location.href);
+
+alert("Movie link copied.");
+
+}
+
+};
+
+document.getElementById("favBtn").onclick=()=>{
+
+let fav=JSON.parse(localStorage.getItem("favorites")||"[]");
+
+if(fav.includes(id)){
+
+fav=fav.filter(x=>x!=id);
+
+alert("Removed from My List");
+
+}else{
+
+fav.push(id);
+
+alert("Added to My List");
+
+}
+
+localStorage.setItem("favorites",JSON.stringify(fav));
+
+};
+
+loadMovie();
+
+</script>
+
+</body>
+</html>
