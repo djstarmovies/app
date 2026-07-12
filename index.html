@@ -972,6 +972,53 @@ document.getElementById("viewAllSeries").addEventListener("click", function(e){
 document.addEventListener("supabaseReady",async()=>{
 
 const db=window.db;
+// ===================================
+// PREMIUM CHECK
+// ===================================
+
+const userID = localStorage.getItem("user_id");
+
+if(userID){
+
+    const { data:user } = await db
+
+    .from("profiles")
+
+    .select("paid_status,package_expiry,subscription_plan")
+
+    .eq("id",userID)
+
+    .single();
+
+    if(user && user.paid_status){
+
+        let premium = false;
+
+        if(user.subscription_plan === "Lifetime"){
+
+            premium = true;
+
+        }else if(user.package_expiry){
+
+            premium =
+
+            new Date(user.package_expiry) >
+
+            new Date();
+
+        }
+
+        if(premium){
+
+            window.location.href = "home.html";
+
+            return;
+
+        }
+
+    }
+
+}
 
 const {data:movies}=await db
 .from("movies")
@@ -1030,7 +1077,111 @@ slider.style.transform=
 },4000);
 
 });
+const { data:latestMovies } = await db
 
+.from("movies")
+
+.select("id,title,poster_url")
+
+.order("created_at",{ascending:false})
+
+.limit(6);
+
+const movieGrid =
+document.getElementById("movieGrid");
+
+movieGrid.innerHTML="";
+
+latestMovies.forEach(movie=>{
+
+movieGrid.innerHTML+=`
+
+<div
+
+class="card"
+
+onclick="location.href='auth.html'">
+
+<img
+
+src="${movie.poster_url}"
+
+alt="${movie.title}">
+
+<div class="card-info">
+
+<div class="card-title">
+
+${movie.title}
+
+</div>
+
+<div class="card-sub">
+
+Movie
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+const { data:latestSeries } = await db
+
+.from("series")
+
+.select("id,title,poster_url")
+
+.order("created_at",{ascending:false})
+
+.limit(6);
+
+const seriesGrid =
+document.getElementById("seriesGrid");
+
+seriesGrid.innerHTML="";
+
+latestSeries.forEach(show=>{
+
+seriesGrid.innerHTML+=`
+
+<div
+
+class="card"
+
+onclick="location.href='auth.html'">
+
+<img
+
+src="${show.poster_url}"
+
+alt="${show.title}">
+
+<div class="card-info">
+
+<div class="card-title">
+
+${show.title}
+
+</div>
+
+<div class="card-sub">
+
+Series
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
 </script>
 
 </body>
