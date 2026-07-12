@@ -216,6 +216,18 @@ button {
   font-weight: bold;
   color: #22c55e;
 }
+#favoriteBtn{
+
+background:#dc2626;
+color:white;
+
+}
+
+#favoriteBtn:hover{
+
+background:#b91c1c;
+
+}
 
 .commentDate {
   font-size: 12px;
@@ -264,24 +276,25 @@ button {
 <div class="actions">
 
 <button id="watchBtn">
-  <i data-lucide="play"></i>
-  Watch
+Watch
 </button>
 
 <button id="trailerBtn">
-  <i data-lucide="film"></i>
-  Trailer
+Trailer
 </button>
 
 <button id="shareBtn">
-  <i data-lucide="share-2"></i>
-  Share
+Share
 </button>
 
-<!-- ⛶ ADD THIS HERE -->
-<button id="fullBtn">
-  ⛶ Fullscreen
+<button id="favoriteBtn">
+❤ Favourite
 </button>
+
+<button id="fullBtn">
+⛶ Fullscreen
+</button>
+
 
 </div>
 
@@ -349,6 +362,35 @@ async function loadMovie() {
   }
 
   movie = data;
+  movie = data;
+
+// Check if logged in user is premium
+const userId = localStorage.getItem("user_id");
+
+let isPremium = false;
+
+if(userId){
+
+const { data: profile } = await supabase
+.from("profiles")
+.select("paid_status, package_expiry")
+.eq("id", userId)
+.single();
+
+if(profile){
+
+const expiry = new Date(profile.package_expiry);
+
+isPremium =
+profile.paid_status === true &&
+expiry > new Date();
+
+}
+
+}
+
+// Block premium movie
+
 
   titleEl.textContent = data.title;
 
@@ -359,8 +401,8 @@ async function loadMovie() {
 durationEl.textContent = data.duration || "N/A";
 
  showPoster(
-  data.banner_url || data.poster,
-  data.video
+  data.banner_url || data.poster_url,
+  data.video_url
 );
 
 
@@ -372,7 +414,7 @@ durationEl.textContent = data.duration || "N/A";
 function showPoster(poster, videoUrl) {
 
   player.innerHTML = `
-    <img src="${poster_url}" class="poster">
+    <img src="${poster}" class="poster">
     <div class="playOverlay">▶</div>
   `;
 
@@ -406,9 +448,8 @@ function renderPlayer(url) {
 
 // 🎞 Similar movies (SMART + PROTECTED)
 async function loadSimilar(currentId) {
+try {
 
-  try {
-    const isPremiumUser = !!localStorage.getItem("activePIN");
 
     // 1️⃣ Get current movie genre
     const { data: current, error: currentError } = await supabase
@@ -430,8 +471,8 @@ async function loadSimilar(currentId) {
       .eq("genre", current.genre);
 
     // 🔒 Filter premium
-    if (!isPremiumUser) {
-      query = query.eq("premium", "FALSE");
+    if (!isPremium) {
+     query = query.eq("premium", false);
     }
 
     let { data, error } = await query.limit(8);
@@ -449,8 +490,8 @@ async function loadSimilar(currentId) {
         .select("*")
         .neq("id", currentId);
 
-      if (!isPremiumUser) {
-        fallbackQuery = fallbackQuery.eq("premium", "FALSE");
+      if (!isPremium) {
+    fallbackQuery = fallbackQuery.eq("premium", false);
       }
 
       const { data: fallback, error: fallbackError } = await fallbackQuery.limit(8);
@@ -512,16 +553,48 @@ ${siteURL}`;
 
 window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
 };
+ document.getElementById("favoriteBtn").onclick = () => {
+
+let favourites = JSON.parse(
+localStorage.getItem("favourites") || "[]"
+);
+
+const exists = favourites.find(m => m.id === movie.id);
+
+if(exists){
+
+showToast("Already in favourites.");
+return;
+
+}
+
+favourites.push({
+
+id: movie.id,
+title: movie.title,
+poster: movie.poster_url,
+premium: movie.premium
+
+});
+
+localStorage.setItem(
+"favourites",
+JSON.stringify(favourites)
+);
+
+showToast("Added to favourites ❤️");
+
+}; 
 
 // 🎞 Trailer
 document.getElementById("trailerBtn").onclick = () => {
 
-  if (!movie || !movie.trailer) {
+if (!movie || !movie.trailer_url) {
 location.href = "subscribe.html";
     return;
   }
 
-  renderPlayer(movie.trailer);
+  renderPlayer(movie.trailer_url);
   window.scrollTo({ top: 0, behavior: "smooth" });
   
 };
@@ -552,16 +625,26 @@ const { error } = await supabase
 // ▶ Watch (FIXED)
 document.getElementById("watchBtn").onclick = async () => {
 
-  if (!movie) return;
+    if(!movie) return;
 
-  // 🔥 Increase views when user actually watches
-  await supabase
-    .from("movies")
-    .update({ views: (movie.views || 0) + 1 })
-    .eq("id", movie.id);
+    if(movie.premium && !isPremium){
+        location.href="subscribe.html";
+        return;
+    }
 
-  renderPlayer(movie.video);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    await supabase
+        .from("movies")
+        .update({
+            views:(movie.views||0)+1
+        })
+        .eq("id",movie.id);
+
+    renderPlayer(movie.video_url);
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
 };
 document.getElementById("fullBtn").onclick = () => {
   const el = document.getElementById("player");
@@ -575,6 +658,43 @@ document.getElementById("fullBtn").onclick = () => {
   }
 };
 
+function showToast(message){
+
+const toast=document.createElement("div");
+
+toast.textContent=message;
+
+toast.style.position="fixed";
+toast.style.left="50%";
+toast.style.bottom="35px";
+toast.style.transform="translateX(-50%)";
+toast.style.background="#16a34a";
+toast.style.color="#fff";
+toast.style.padding="14px 22px";
+toast.style.borderRadius="40px";
+toast.style.fontWeight="600";
+toast.style.boxShadow="0 15px 35px rgba(0,0,0,.35)";
+toast.style.zIndex="999999";
+toast.style.opacity="0";
+toast.style.transition=".3s";
+
+document.body.appendChild(toast);
+
+requestAnimationFrame(()=>{
+toast.style.opacity="1";
+});
+
+setTimeout(()=>{
+
+toast.style.opacity="0";
+
+setTimeout(()=>{
+toast.remove();
+},300);
+
+},2200);
+
+}
 loadMovie().then(() => {
   lucide.createIcons();
 
