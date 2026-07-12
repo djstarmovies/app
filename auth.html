@@ -212,14 +212,14 @@ Create your account and start watching
 
 
 <input 
-id="regUsername"
+id="regName"
 placeholder="Your Name"
 >
 
 
 <input 
 id="regWhatsapp"
-placeholder="WhatsApp Number (for updates only)"
+placeholder="WhatsApp Number (e.g +254700000000)"
 >
 
 
@@ -265,7 +265,7 @@ Already have account? Login
 
 <input
 id="loginIdentity"
-placeholder="Username or WhatsApp"
+placeholder="Your Name"
 >
 
 
@@ -456,59 +456,50 @@ x=>x.toString(16)
 
 async function registerUser(){
 
+  let name =
+regName.value.trim();
 
-let username =
-regUsername.value.trim();
+let phone =
+regWhatsapp.value.trim();
 
+let password =
+regPassword.value;
 
-// Read phone number
-let phone = regWhatsapp.value.trim();
+let msg =
+registerMessage;
 
-// Remove spaces, dashes and brackets
-phone = phone.replace(/[\s()-]/g, "");
-
-// Allow a leading +
-if (phone.startsWith("+")) {
-    phone = "+" + phone.substring(1).replace(/\+/g, "");
-}
-
-// Validation
-if (!/^\+?[1-9]\d{7,14}$/.test(phone)) {
+if(
+    !name ||
+    !phone ||
+    !password
+){
 
     msg.innerHTML =
-    "Please enter a valid WhatsApp number.";
+    "Please complete all fields.";
 
     return;
 
 }
 
+    // Remove spaces, dashes and brackets
+    phone = phone.replace(/[\s()-]/g, "");
 
-let password =
-regPassword.value;
+    // Allow one leading +
+    if (phone.startsWith("+")) {
+        phone = "+" + phone.substring(1).replace(/\+/g, "");
+    }
 
+    // Validate phone number
+    if (!/^\+?[1-9]\d{7,14}$/.test(phone)) {
 
+        msg.innerHTML =
+        "Please enter a valid WhatsApp number.";
 
-let msg =
-registerMessage;
+        return;
 
+    }
 
-
-if(
-!username ||
-!phone ||
-!password
-){
-
-msg.innerHTML=
-"Please complete all fields";
-
-return;
-
-}
-
-
-
-
+    // Continue with password hashing...
 let passwordHash =
 await hashPassword(password);
 
@@ -523,17 +514,17 @@ await supabaseClient
 
 .insert({
 
-username:username,
+    name: name,
 
-whatsapp_number:phone,
+    whatsapp_number: phone,
 
-password_hash:passwordHash,
+    password_hash: passwordHash,
 
-device_id:getDeviceID(),
+    device_id: getDeviceID(),
 
-account_status:"active",
+    account_status: "active",
 
-paid_status:false
+    paid_status: false
 
 })
 
@@ -577,7 +568,7 @@ data.id
 );
 
 localStorage.setItem(
-"user_name",
+"name",
 data.name
 );
 
@@ -678,7 +669,7 @@ data.id
 );
 
 localStorage.setItem(
-"user_name",
+"name",
 data.name
 );
 
