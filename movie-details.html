@@ -3,464 +3,595 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DJ STAR MOVIES - Movie Details</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<title>DJ Star Movies - Watch now</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+body {
+  margin: 0;
+  background:#090909;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-body{
-background:#0b0b0b;
-color:#fff;
-padding-bottom:90px;
+.header {
+  padding: 15px;
+  font-size: 20px;
+   color:#fbbf24;
+  font-weight: bold;
 }
 
-.hero{
-position:relative;
-width:100%;
-height:320px;
-overflow:hidden;
-background:#111;
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 10px;
 }
 
-.hero img{
-width:100%;
-height:100%;
-object-fit:cover;
+.player {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: black;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+  .player iframe,
+.player video {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-.hero::after{
-content:"";
-position:absolute;
-left:0;
-right:0;
-bottom:0;
-top:0;
-background:linear-gradient(to top,#0b0b0b 0%,rgba(0,0,0,.25) 50%,rgba(0,0,0,.45) 100%);
+
+.poster {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
 }
 
-.back-btn{
-position:absolute;
-top:20px;
-left:20px;
-width:48px;
-height:48px;
-border-radius:50%;
-border:none;
-background:rgba(0,0,0,.55);
-color:#fff;
-font-size:18px;
-cursor:pointer;
-z-index:5;
-backdrop-filter:blur(8px);
+.playOverlay {
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:60px;
+  cursor:pointer;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.2)
+  );
+  backdrop-filter:blur(2px);
+  transition:.25s;
 }
 
-.play-overlay{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:90px;
-height:90px;
-border-radius:50%;
-border:none;
-background:#e50914;
-color:#fff;
-font-size:34px;
-cursor:pointer;
-z-index:5;
-box-shadow:0 0 35px rgba(229,9,20,.45);
-transition:.3s;
+.playOverlay:hover{
+  background:rgba(0,0,0,.45);
 }
 
-.play-overlay:hover{
-transform:translate(-50%,-50%) scale(1.08);
+.meta {
+  padding: 15px;
 }
 
-.details{
-padding:22px;
-margin-top:-25px;
-position:relative;
-z-index:2;
+.title {
+  font-size: 22px;
+  font-weight: bold;
 }
 
-h1{
-font-size:32px;
-margin-bottom:14px;
+.desc {
+  margin-top: 10px;
+  color: #ccc;
 }
 
-.meta{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:18px;
+.views {
+  margin-top: 10px;
+  color: #aaa;
 }
 
-.meta span{
-background:#191919;
-padding:8px 14px;
-border-radius:30px;
-font-size:13px;
-color:#ddd;
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.synopsis{
-line-height:1.8;
-color:#ccc;
-margin-bottom:25px;
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
 }
 
-.actions{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-bottom:35px;
+/* ▶ Watch */
+#watchBtn {
+  background:linear-gradient(135deg,#fbbf24,#d97706);
+  color:#000;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
 }
 
-.actions button{
-border:none;
-border-radius:14px;
-padding:15px;
-font-size:15px;
-font-weight:600;
-cursor:pointer;
-color:#fff;
-transition:.3s;
+#watchBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
 }
 
-.watch{
-background:#e50914;
+/* 🔗 Share */
+#shareBtn {
+  background: #1f2937;
+  color: #fff;
+  border: 1px solid #374151;
 }
 
-.favorite{
-background:#202020;
+#shareBtn:hover {
+  background:#111;
+  border:1px solid #333;
+  transform: translateY(-2px);
 }
 
-.share{
-background:#1e3a8a;
+/* 🎞 Trailer */
+#trailerBtn {
+   background:#18181b;
+  color:#fbbf24;
+   border:1px solid #fbbf24;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
 }
 
-.actions button:hover{
-transform:translateY(-3px);
+#trailerBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
 }
 
-.section{
-padding:0 22px;
-margin-top:20px;
+.similar {
+  margin-top: 30px;
+  padding: 15px;
 }
 
-.section h2{
-margin-bottom:16px;
-font-size:22px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+  gap: 10px;
 }
 
-.similar{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-gap:14px;
+.card img {
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.badge{
+  background:#1a1a1a;
+  color:#fbbf24;
+  border:1px solid rgba(251,191,36,.3);
 }
 
-.card{
-background:#151515;
-border-radius:14px;
-overflow:hidden;
-cursor:pointer;
-transition:.3s;
+.badge {
+  background: #1f2937;
+  color: #22c55e;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.card:hover{
-transform:translateY(-5px);
+.commentsBox {
+  margin-top: 40px;
+  background: #111827;
+  padding: 20px;
+  border-radius: 14px;
 }
 
-.card img{
-width:100%;
-aspect-ratio:2/3;
-object-fit:cover;
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.card p{
-padding:10px;
-font-size:14px;
-font-weight:600;
+.commentForm input,
+.commentForm textarea {
+  background: #1f2937;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
 }
 
-@media(max-width:768px){
-
-.hero{
-height:250px;
+.commentForm textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
-.actions{
-grid-template-columns:1fr;
+.commentItem {
+  margin-top: 20px;
+  padding: 15px;
+  border-bottom: 1px solid #222;
 }
 
+.commentUser {
+  font-weight: bold;
+  color: #22c55e;
 }
 
+.commentDate {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.commentText {
+  margin-top: 10px;
+  color: #ddd;
+}
+#fullBtn {
+  background: #111827;
+  color: white;
+  border: 1px solid #374151;
+}
+
+#fullBtn:hover {
+  background: #374151;
+}
 </style>
 </head>
 
 <body>
 
-<div class="hero">
+<div class="header">🎬 DJ Star Movies</div>
 
-<img id="banner" src="" alt="Movie Banner">
+<div class="container">
 
-<button class="back-btn" onclick="history.back()">
-<i class="fas fa-arrow-left"></i>
-</button>
-
-<button class="play-overlay" id="playOverlay">
-<i class="fas fa-play"></i>
-</button>
-
-</div>
-
-<div class="details">
-
-<h1 id="title">Loading...</h1>
+  <div class="player" id="player"></div>
 
 <div class="meta">
 
-<span id="year">Year</span>
+  <div class="title" id="title">Loading...</div>
 
-<span id="genre">Genre</span>
+  <div class="badges">
+    <span class="badge" id="genre"></span>
+    <span class="badge" id="duration"></span>
+  </div>
 
-<span id="country">Country</span>
+  <div class="desc" id="desc"></div>
 
-<span id="rating">⭐ --</span>
-
-<span id="views">👁 0</span>
+  <div class="views" id="views"></div>
 
 </div>
-
-<p class="synopsis" id="synopsis">
-Loading movie...
-</p>
-
 <div class="actions">
 
-<button class="watch" id="watchBtn">
-<i class="fas fa-play"></i>
- Watch Now
+<button id="watchBtn">
+  <i data-lucide="play"></i>
+  Watch
 </button>
 
-<button class="favorite" id="favBtn">
-<i class="fas fa-heart"></i>
- My List
+<button id="trailerBtn">
+  <i data-lucide="film"></i>
+  Trailer
 </button>
 
-<button class="share" id="shareBtn">
-<i class="fas fa-share-alt"></i>
- Share
+<button id="shareBtn">
+  <i data-lucide="share-2"></i>
+  Share
+</button>
+
+<!-- ⛶ ADD THIS HERE -->
+<button id="fullBtn">
+  ⛶ Fullscreen
 </button>
 
 </div>
 
+<!-- COMMENTS SECTION -->
+<div class="commentsBox">
+
+  <h3>Comments</h3>
+
+  <button id="openCommentBox">
+    Write a comment
+  </button>
+
+  <div class="commentForm" id="commentForm" style="display:none;">
+    <input id="username" placeholder="Your name">
+    <textarea id="commentText" placeholder="Write comment..."></textarea>
+    <button id="postComment">Post Comment</button>
+  </div>
+
+  <div id="commentsList"></div>
+
 </div>
 
-<section class="section">
-
-<h2>More Like This</h2>
-
-<div class="similar" id="similarMovies">
+  <div class="similar">
+    <h3>Similar Movies</h3>
+    <div class="grid" id="similar"></div>
+  </div>
 
 </div>
-
-</section>
 
 <script type="module">
 
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
 const supabase = createClient(
     "https://rjjsdqikvtzhnpmdouir.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk"
 );
 
-const params=new URLSearchParams(location.search);
 
-const id=params.get("id");
+const params = new URLSearchParams(window.location.search);
+const movieId = params.get("id");
 
-let movie=null;
+const player = document.getElementById("player");
+const titleEl = document.getElementById("title");
+const descEl = document.getElementById("desc");
+const viewsEl = document.getElementById("views");
+const genreEl = document.getElementById("genre");
+const durationEl = document.getElementById("duration");
+const commentsList = document.getElementById("commentsList");
+const similarEl = document.getElementById("similar");
 
-async function loadMovie(){
+let movie = null;
 
-const {data,error}=await supabase
+async function loadMovie() {
 
-.from("movies")
+  const { data } = await supabase
+    .from("movies")
+    .select("*")
+    .eq("id", movieId)
+    .single();
 
-.select("*")
+  if (!data) {
+    titleEl.textContent = "Movie not found";
+    return;
+  }
 
-.eq("id",id)
+  movie = data;
 
-.single();
+  titleEl.textContent = data.title;
 
-if(error || !data){
+ descEl.textContent = data.synopsis || "No description";
 
-document.body.innerHTML="<h2 style='padding:40px;text-align:center'>Movie not found.</h2>";
+  viewsEl.textContent = (data.views || 0) + " views";
+  genreEl.textContent = data.genre || "Unknown";
+durationEl.textContent = data.duration || "N/A";
 
-return;
+ showPoster(
+  data.banner_url || data.poster,
+  data.video
+);
 
+
+  loadSimilar(data.id);
+  loadComments(data.id);
 }
 
-movie=data;
+// 🎬 Poster preload
+function showPoster(poster, videoUrl) {
 
-await supabase
+  player.innerHTML = `
+    <img src="${poster_url}" class="poster">
+    <div class="playOverlay">▶</div>
+  `;
 
-.from("movies")
-
-.update({
-
-views:(movie.views||0)+1
-
-})
-
-.eq("id",id);
-
-document.getElementById("banner").src=
-
-movie.banner_url || movie.poster_url;
-
-document.getElementById("title").textContent=
-
-movie.title;
-
-document.getElementById("year").textContent=
-
-movie.year || "-";
-
-document.getElementById("genre").textContent=
-
-movie.genre || "-";
-
-document.getElementById("country").textContent=
-
-movie.country || "-";
-
-document.getElementById("rating").textContent=
-
-"⭐ "+(movie.rating || "N/A");
-
-document.getElementById("views").textContent=
-
-"👁 "+((movie.views||0)+1);
-
-document.getElementById("synopsis").textContent=
-
-movie.synopsis || "No synopsis available.";
-
-loadSimilar();
-
+  player.onclick = () => {
+    renderPlayer(videoUrl);
+  };
 }
 
-async function loadSimilar(){
+// 🎬 Player switch
+function renderPlayer(url) {
 
-const {data}=await supabase
+  if (url.includes("youtube") || url.includes("youtu.be")) {
+    const id = url.match(/(?:v=|youtu\.be\/)([^&]+)/)?.[1];
+    player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>`;
+  }
 
-.from("movies")
+  else if (url.includes("vimeo")) {
+    const id = url.split("/").pop();
+    player.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}" allowfullscreen></iframe>`;
+  }
 
-.select("*")
+  else if (url.includes("drive.google.com")) {
+    const id = url.match(/\/d\/(.*?)\//)?.[1];
+    player.innerHTML = `<iframe src="https://drive.google.com/file/d/${id}/preview" allowfullscreen></iframe>`;
+  }
 
-.eq("genre",movie.genre)
+  else {
+    player.innerHTML = `<video controls autoplay src="${url}"></video>`;
+  }
+}
 
-.neq("id",movie.id)
+// 🎞 Similar movies (SMART + PROTECTED)
+async function loadSimilar(currentId) {
 
-.limit(6);
+  try {
+    const isPremiumUser = !!localStorage.getItem("activePIN");
 
-const box=document.getElementById("similarMovies");
+    // 1️⃣ Get current movie genre
+    const { data: current, error: currentError } = await supabase
+      .from("movies")
+      .select("genre")
+      .eq("id", currentId)
+      .single();
 
-box.innerHTML="";
+    if (currentError || !current) {
+      console.error("Current movie fetch error:", currentError);
+      return;
+    }
 
-if(!data)return;
+    // 2️⃣ Base query (same genre)
+    let query = supabase
+      .from("movies")
+      .select("*")
+      .neq("id", currentId)
+      .eq("genre", current.genre);
 
-data.forEach(item=>{
+    // 🔒 Filter premium
+    if (!isPremiumUser) {
+      query = query.eq("premium", "FALSE");
+    }
 
-box.innerHTML+=`
+    let { data, error } = await query.limit(8);
 
-<div class="card"
+    if (error) {
+      console.error("Similar error:", error);
+      return;
+    }
 
-onclick="location.href='movie-details.html?id=${item.id}'">
+    // 3️⃣ Fallback if not enough results
+    if (!data || data.length < 4) {
 
-<img src="${item.poster_url}">
+      let fallbackQuery = supabase
+        .from("movies")
+        .select("*")
+        .neq("id", currentId);
 
-<p>${item.title}</p>
+      if (!isPremiumUser) {
+        fallbackQuery = fallbackQuery.eq("premium", "FALSE");
+      }
 
-</div>
+      const { data: fallback, error: fallbackError } = await fallbackQuery.limit(8);
 
-`;
+      if (fallbackError) {
+        console.error("Fallback error:", fallbackError);
+        return;
+      }
 
+      data = fallback;
+    }
+
+    // 4️⃣ Render
+    similarEl.innerHTML = data.map(m => `
+      <div class="card">
+        <img src="${m.poster_url}" onclick="location.href='?id=${m.id}'">
+      </div>
+    `).join("");
+
+ } catch (err) {
+  console.error("Crash in loadSimilar:", err);
+}
+
+} // ← CLOSE loadSimilar HERE
+
+async function loadComments(movieId) {
+
+  const { data, error } = await supabase
+    .from("movies_comments")
+    .select("*")
+    .eq("movie_id", movieId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  commentsList.innerHTML = data.map(c => `
+    <div class="commentItem">
+      <div class="commentUser">${c.user_name}</div>
+      <div class="commentDate">
+        ${new Date(c.created_at).toLocaleString()}
+      </div>
+      <div class="commentText">${c.comment}</div>
+    </div>
+  `).join("");
+}
+// 🔗 SHARE SITE (FIXED)
+document.getElementById("shareBtn").onclick = () => {
+
+  const siteURL = "https://rb.gy/kq79d3"; // 👈 CHANGE THIS
+
+const text =
+`🎬 Watch movies and series translated into kiswahili by DJ Star
+
+🔥 Stream now:
+${siteURL}`;
+
+window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+};
+
+// 🎞 Trailer
+document.getElementById("trailerBtn").onclick = () => {
+
+  if (!movie || !movie.trailer) {
+location.href = "subscribe.html";
+    return;
+  }
+
+  renderPlayer(movie.trailer);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  
+};
+document.getElementById("postComment").onclick = async () => {
+
+  const username = document.getElementById("username").value.trim();
+  const comment = document.getElementById("commentText").value.trim();
+
+  if (!username || !comment) return;
+
+const { error } = await supabase
+  .from("movies_comments")
+  .insert([{
+    movie_id: movie.id,
+    user_name: username,
+    comment
+  }]);
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  document.getElementById("commentText").value = "";
+
+  loadComments(movie.id);
+};
+
+// ▶ Watch (FIXED)
+document.getElementById("watchBtn").onclick = async () => {
+
+  if (!movie) return;
+
+  // 🔥 Increase views when user actually watches
+  await supabase
+    .from("movies")
+    .update({ views: (movie.views || 0) + 1 })
+    .eq("id", movie.id);
+
+  renderPlayer(movie.video);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+document.getElementById("fullBtn").onclick = () => {
+  const el = document.getElementById("player");
+
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+};
+
+loadMovie().then(() => {
+  lucide.createIcons();
+
+  const openBtn = document.getElementById("openCommentBox");
+  const form = document.getElementById("commentForm");
+
+  openBtn.addEventListener("click", () => {
+    if (!form) return;
+
+    form.style.display =
+      form.style.display === "none" ? "flex" : "none";
+  });
 });
-
-}
-
-document.getElementById("watchBtn").onclick=()=>{
-
-location.href=`cinema.html?id=${id}`;
-
-};
-
-document.getElementById("playOverlay").onclick=()=>{
-
-location.href=`cinema.html?id=${id}`;
-
-};
-
-document.getElementById("shareBtn").onclick=()=>{
-
-if(navigator.share){
-
-navigator.share({
-
-title:movie.title,
-
-text:movie.synopsis,
-
-url:location.href
-
-});
-
-}else{
-
-navigator.clipboard.writeText(location.href);
-
-alert("Movie link copied.");
-
-}
-
-};
-
-document.getElementById("favBtn").onclick=()=>{
-
-let fav=JSON.parse(localStorage.getItem("favorites")||"[]");
-
-if(fav.includes(id)){
-
-fav=fav.filter(x=>x!=id);
-
-alert("Removed from My List");
-
-}else{
-
-fav.push(id);
-
-alert("Added to My List");
-
-}
-
-localStorage.setItem("favorites",JSON.stringify(fav));
-
-};
-
-loadMovie();
-
 </script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
 
 </body>
 </html>
