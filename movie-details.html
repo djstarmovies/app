@@ -347,7 +347,8 @@ const genreEl = document.getElementById("genre");
 const durationEl = document.getElementById("duration");
 const commentsList = document.getElementById("commentsList");
 const similarEl = document.getElementById("similar");
-
+let movie = null;
+let isPremium = false;
 
 
 async function loadMovie() {
@@ -367,7 +368,6 @@ async function loadMovie() {
 
 // Check if logged in user is premium
 const userId = localStorage.getItem("user_id");
-let movie = null;
 isPremium = false;
 
 if(userId){
