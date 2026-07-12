@@ -346,7 +346,7 @@ const durationEl = document.getElementById("duration");
 const commentsList = document.getElementById("commentsList");
 const similarEl = document.getElementById("similar");
 
-let movie = null;
+
 
 async function loadMovie() {
 
@@ -362,12 +362,11 @@ async function loadMovie() {
   }
 
   movie = data;
-  movie = data;
 
 // Check if logged in user is premium
 const userId = localStorage.getItem("user_id");
-
-let isPremium = false;
+let movie = null;
+isPremium = false;
 
 if(userId){
 
@@ -696,7 +695,6 @@ toast.remove();
 
 }
 loadMovie().then(() => {
-  lucide.createIcons();
 
   const openBtn = document.getElementById("openCommentBox");
   const form = document.getElementById("commentForm");
