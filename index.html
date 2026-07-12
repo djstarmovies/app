@@ -973,6 +973,54 @@ document.addEventListener("supabaseReady",async()=>{
 
 const db=window.db;
 
+
+// ===================================
+// PREMIUM CHECK
+// ===================================
+
+const userID = localStorage.getItem("user_id");
+
+if(userID){
+
+    const { data:user } = await db
+
+    .from("profiles")
+
+    .select("paid_status,package_expiry,subscription_plan")
+
+    .eq("id",userID)
+
+    .single();
+
+    if(user && user.paid_status){
+
+        let premium = false;
+
+        if(user.subscription_plan === "Lifetime"){
+
+            premium = true;
+
+        }else if(user.package_expiry){
+
+            premium =
+
+            new Date(user.package_expiry) >
+
+            new Date();
+
+        }
+
+        if(premium){
+
+            window.location.href = "home.html";
+
+            return;
+
+        }
+
+    }
+
+}
 const {data:movies}=await db
 .from("movies")
 .select("id,title,banner_url")
