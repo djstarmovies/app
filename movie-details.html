@@ -13,6 +13,7 @@ body {
   color: #fff;
   font-family: 'Segoe UI', sans-serif;
 }
+  
 
 .header {
   padding: 15px;
@@ -94,10 +95,11 @@ body {
 }
 
 
-.actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
+.actions{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+gap:12px;
+margin-top:20px;
 }
 
 button {
@@ -637,6 +639,8 @@ document.getElementById("watchBtn").onclick = async () => {
             views:(movie.views||0)+1
         })
         .eq("id",movie.id);
+  movie.views = (movie.views || 0) + 1;
+viewsEl.textContent = movie.views + " views";
 
     renderPlayer(movie.video_url);
     window.scrollTo({
