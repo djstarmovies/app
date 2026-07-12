@@ -624,10 +624,57 @@ TRENDING NOW
 <a href="#" id="viewAllMovies">View All</a>
     </div>
 
-   <div
-class="grid"
-id="movieGrid">
-</div>
+    <div class="grid" id="movieGrid">
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=11">
+            <div class="card-info">
+                <div class="card-title">Fast X Kiswahili</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=12">
+            <div class="card-info">
+                <div class="card-title">Extraction 2</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=13">
+            <div class="card-info">
+                <div class="card-title">John Wick 4</div>
+                <div class="card-sub">Crime</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=14">
+            <div class="card-info">
+                <div class="card-title">The Equalizer</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=15">
+            <div class="card-info">
+                <div class="card-title">Mission Impossible</div>
+                <div class="card-sub">Adventure</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=16">
+            <div class="card-info">
+                <div class="card-title">Plane</div>
+                <div class="card-sub">Action</div>
+            </div>
+        </div>
+
+    </div>
 
 </section>
 
@@ -644,10 +691,55 @@ LATEST SERIES
 
     <div class="grid" id="seriesGrid">
 
-      <div
-class="grid"
-id="seriesGrid">
-</div>
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=31">
+            <div class="card-info">
+                <div class="card-title">Squid Game</div>
+                <div class="card-sub">Season 2</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=32">
+            <div class="card-info">
+                <div class="card-title">Money Heist</div>
+                <div class="card-sub">Series</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=33">
+            <div class="card-info">
+                <div class="card-title">Prison Break</div>
+                <div class="card-sub">Series</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=34">
+            <div class="card-info">
+                <div class="card-title">The Boys</div>
+                <div class="card-sub">Season 4</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=35">
+            <div class="card-info">
+                <div class="card-title">Wednesday</div>
+                <div class="card-sub">Season 2</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/300/450?random=36">
+            <div class="card-info">
+                <div class="card-title">The Witcher</div>
+                <div class="card-sub">Fantasy</div>
+            </div>
+        </div>
+
+    </div>
 
 </section>
 
@@ -880,53 +972,6 @@ document.getElementById("viewAllSeries").addEventListener("click", function(e){
 document.addEventListener("supabaseReady",async()=>{
 
 const db=window.db;
-// ===================================
-// PREMIUM CHECK
-// ===================================
-
-const userID = localStorage.getItem("user_id");
-
-if(userID){
-
-    const { data:user } = await db
-
-    .from("profiles")
-
-    .select("paid_status,package_expiry,subscription_plan")
-
-    .eq("id",userID)
-
-    .single();
-
-    if(user && user.paid_status){
-
-        let premium = false;
-
-        if(user.subscription_plan === "Lifetime"){
-
-            premium = true;
-
-        }else if(user.package_expiry){
-
-            premium =
-
-            new Date(user.package_expiry) >
-
-            new Date();
-
-        }
-
-        if(premium){
-
-            window.location.href = "home.html";
-
-            return;
-
-        }
-
-    }
-
-}
 
 const {data:movies}=await db
 .from("movies")
@@ -985,111 +1030,7 @@ slider.style.transform=
 },4000);
 
 });
-const { data:latestMovies } = await db
 
-.from("movies")
-
-.select("id,title,poster_url")
-
-.order("created_at",{ascending:false})
-
-.limit(6);
-
-const movieGrid =
-document.getElementById("movieGrid");
-
-movieGrid.innerHTML="";
-
-latestMovies.forEach(movie=>{
-
-movieGrid.innerHTML+=`
-
-<div
-
-class="card"
-
-onclick="location.href='auth.html'">
-
-<img
-
-src="${movie.poster_url}"
-
-alt="${movie.title}">
-
-<div class="card-info">
-
-<div class="card-title">
-
-${movie.title}
-
-</div>
-
-<div class="card-sub">
-
-Movie
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-const { data:latestSeries } = await db
-
-.from("series")
-
-.select("id,title,poster_url")
-
-.order("created_at",{ascending:false})
-
-.limit(6);
-
-const seriesGrid =
-document.getElementById("seriesGrid");
-
-seriesGrid.innerHTML="";
-
-latestSeries.forEach(show=>{
-
-seriesGrid.innerHTML+=`
-
-<div
-
-class="card"
-
-onclick="location.href='auth.html'">
-
-<img
-
-src="${show.poster_url}"
-
-alt="${show.title}">
-
-<div class="card-info">
-
-<div class="card-title">
-
-${show.title}
-
-</div>
-
-<div class="card-sub">
-
-Series
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
 </script>
 
 </body>
