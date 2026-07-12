@@ -475,6 +475,40 @@ ${data.paid_status ?
 
 
 
+${
+data.paid_status ?
+
+`
+
+<div class="profile-item">
+
+<div class="label">
+Package Expiry
+</div>
+
+<div class="value">
+
+${
+data.package_expiry
+?
+
+new Date(data.package_expiry).toLocaleDateString()
+
+:
+
+"Lifetime"
+}
+
+</div>
+
+</div>
+
+`
+
+:
+
+`
+
 <div class="profile-item">
 
 <div class="label">
@@ -483,9 +517,15 @@ Joined
 
 <div class="value">
 
-${new Date(data.created_at)
-.toLocaleDateString()}
+${new Date(data.created_at).toLocaleDateString()}
 
+</div>
+
+</div>
+
+`
+
+}
 </div>
 
 </div>
