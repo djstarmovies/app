@@ -213,13 +213,13 @@ Create your account and start watching
 
 <input 
 id="regUsername"
-placeholder="Username"
+placeholder="Your Name"
 >
 
 
 <input 
 id="regWhatsapp"
-placeholder="WhatsApp Number"
+placeholder="WhatsApp Number (for updates only)"
 >
 
 
@@ -461,8 +461,26 @@ let username =
 regUsername.value.trim();
 
 
-let whatsapp =
-regWhatsapp.value.trim();
+// Read phone number
+let phone = regWhatsapp.value.trim();
+
+// Remove spaces, dashes and brackets
+phone = phone.replace(/[\s()-]/g, "");
+
+// Allow a leading +
+if (phone.startsWith("+")) {
+    phone = "+" + phone.substring(1).replace(/\+/g, "");
+}
+
+// Validation
+if (!/^\+?[1-9]\d{7,14}$/.test(phone)) {
+
+    msg.innerHTML =
+    "Please enter a valid WhatsApp number.";
+
+    return;
+
+}
 
 
 let password =
@@ -477,7 +495,7 @@ registerMessage;
 
 if(
 !username ||
-!whatsapp ||
+!phone ||
 !password
 ){
 
@@ -507,7 +525,7 @@ await supabaseClient
 
 username:username,
 
-whatsapp_number:whatsapp,
+whatsapp_number:phone,
 
 password_hash:passwordHash,
 
@@ -522,7 +540,6 @@ paid_status:false
 .select()
 
 .single();
-
 
 
 
@@ -554,19 +571,37 @@ localStorage.setItem(
 "true"
 );
 
-
 localStorage.setItem(
 "user_id",
 data.id
 );
 
+localStorage.setItem(
+"user_name",
+data.name
+);
+
+localStorage.setItem(
+"whatsapp_number",
+data.whatsapp_number
+);
+
+localStorage.setItem(
+"account_status",
+data.account_status
+);
+
+localStorage.setItem(
+"paid_status",
+data.paid_status
+);
 
 
 
 
 setTimeout(()=>{
 
-window.location.href="index.html";
+window.location.href="home.html";
 
 },1500);
 
@@ -579,90 +614,90 @@ window.location.href="index.html";
 
 
 
-
 // ================================
 // LOGIN
 // ================================
 
-
 async function loginUser(){
 
+    let name =
+    loginIdentity.value.trim();
 
-let identity =
-loginIdentity.value.trim();
+    let password =
+    loginPassword.value;
 
+    let msg =
+    loginMessage;
 
+    if(
+        !name ||
+        !password
+    ){
 
-let password =
-loginPassword.value;
+        msg.innerHTML =
+        "Please enter your name and password.";
 
+        return;
 
+    }
 
-let msg =
-loginMessage;
+    let passwordHash =
+    await hashPassword(password);
 
+    const { data, error } =
 
+    await supabaseClient
 
+    .from("profiles")
 
-let passwordHash =
-await hashPassword(password);
+    .select("*")
 
+    .eq("name", name)
 
+    .eq("password_hash", passwordHash)
 
+    .single();
 
+    if(error || !data){
 
-const {data,error}=
+        msg.innerHTML =
+        "Incorrect name or password.";
 
-await supabaseClient
+        return;
 
-.from("profiles")
+    }
 
-.select("*")
-
-.or(
-`username.eq.${identity},whatsapp_number.eq.${identity}`
-)
-
-.eq(
-"password_hash",
-passwordHash
-)
-
-.single();
-
-
-
-
-
-if(error || !data){
-
-msg.innerHTML=
-"Wrong username or password";
-
-return;
-
-}
-
-
-
-
-localStorage.setItem(
+   localStorage.setItem(
 "loggedIn",
 "true"
 );
-
-
 
 localStorage.setItem(
 "user_id",
 data.id
 );
 
+localStorage.setItem(
+"user_name",
+data.name
+);
 
+localStorage.setItem(
+"whatsapp_number",
+data.whatsapp_number
+);
 
+localStorage.setItem(
+"account_status",
+data.account_status
+);
 
-window.location.href=
-"index.html";
+localStorage.setItem(
+"paid_status",
+data.paid_status
+);
+    window.location.href =
+    "home.html";
 
 }
 
