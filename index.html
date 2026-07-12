@@ -459,19 +459,21 @@ margin-bottom:4px;
 }
 
 .subscribe-btn{
-
-background:#e50914;
-
-padding:10px 18px;
-
-border-radius:30px;
-
-font-size:13px;
-
-font-weight:600;
-
+background:transparent;
+padding:0;
+border-radius:0;
+font-size:11px;
+font-weight:400;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#fff;
+transition:.3s;
 }
 
+.subscribe-btn:hover{
+color:#e50914;
+}
 /* ===========================
 ANIMATIONS
 =========================== */
@@ -603,28 +605,7 @@ HERO SLIDER
 
     <div class="slider" id="slider">
 
-        <div class="slide">
-            <img src="https://img.youtube.com/vi/FVH4EiQkXdU/maxresdefault.jpg">
-        </div>
-
-        <div class="slide">
-            <img src="https://img.youtube.com/vi/W_y208n6ERg/maxresdefault.jpg">
-        </div>
-
-        <div class="slide">
-            <img src="https://img.youtube.com/vi/ftDgEfPqQtI/maxresdefault.jpg">
-        </div>
-
-        <div class="slide">
-            <img src="https://img.youtube.com/vi/dN9KlVnGuL0/maxresdefault.jpg">
-        </div>
-
-        <div class="slide">
-            <img src="https://img.youtube.com/vi/FdfpHCOEhVE/maxresdefault.jpg">
-        </div>
-
-    </div>
-
+ 
     <div class="hero-text fadeUp">
         <h1>DJ STAR MOVIES</h1>
         <p>Kenya's Home of Kiswahili Dubbed Movies & Series</p>
@@ -783,12 +764,27 @@ FOOTER
         <span>Account</span>
     </a>
 
-    <a href="subscribe.html" class="subscribe-btn">
-        Subscribe
-    </a>
+<a href="subscribe.html" class="subscribe-btn">
+    <i>💎</i>
+    <span>Subscribe</span>
+</a>
 
 </footer>
+<script type="module">
 
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+    "https://rjjsdqikvtzhnpmdouir.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanNkcWlrdnR6aG5wbWRvdWlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzAxMDAsImV4cCI6MjA5ODU0NjEwMH0.sbeeCa8LVYGzPzT5mm06eZeQfjrRdFgbsUjqoR2K7tk"
+);
+
+// Make available to the existing script
+window.db = supabase;
+
+document.dispatchEvent(new Event("supabaseReady"));
+
+</script>
 <script>
 // ===============================
 // SPLASH SCREEN
@@ -829,23 +825,41 @@ setInterval(autoSlide, 4000);
 // LIVE SEARCH
 // ===============================
 
-const searchInput = document.getElementById("searchInput");
+const searchInput=document.getElementById("searchInput");
 
-searchInput.addEventListener("keyup", function(){
+searchInput.addEventListener("keydown",function(e){
 
-    const keyword = this.value.toLowerCase();
+    if(localStorage.getItem("loggedIn")==="true"){
+        return;
+    }
 
-    document.querySelectorAll(".card").forEach(card=>{
+    e.preventDefault();
 
-        const text = card.innerText.toLowerCase();
+    const msg=document.createElement("div");
 
-        if(text.includes(keyword)){
-            card.style.display="block";
-        }else{
-            card.style.display="none";
-        }
+    msg.innerHTML="🔒 Please login first to search movies and series.";
 
-    });
+    msg.style.position="fixed";
+    msg.style.left="50%";
+    msg.style.bottom="95px";
+    msg.style.transform="translateX(-50%)";
+    msg.style.background="#1b1b1b";
+    msg.style.color="#fff";
+    msg.style.padding="14px 20px";
+    msg.style.borderRadius="30px";
+    msg.style.boxShadow="0 10px 30px rgba(0,0,0,.45)";
+    msg.style.zIndex="99999";
+    msg.style.fontSize="14px";
+
+    document.body.appendChild(msg);
+
+    setTimeout(()=>{
+
+        msg.remove();
+
+        location.href="login.html";
+
+    },1700);
 
 });
 
@@ -951,6 +965,72 @@ document.getElementById("viewAllSeries").addEventListener("click", function(e){
     }
 
 });
+// ===============================
+// LOAD DATA FROM SUPABASE
+// ===============================
+
+document.addEventListener("supabaseReady",async()=>{
+
+const db=window.db;
+
+const {data:movies}=await db
+.from("movies")
+.select("id,title,banner_url")
+.not("banner_url","is",null)
+.order("created_at",{ascending:false})
+.limit(5);
+
+const {data:series}=await db
+.from("series")
+.select("id,title,banner_url")
+.not("banner_url","is",null)
+.order("created_at",{ascending:false})
+.limit(5);
+
+const hero=[
+...(movies||[]),
+...(series||[])
+];
+
+if(hero.length===0)return;
+
+slider.innerHTML="";
+
+hero.forEach(item=>{
+
+slider.innerHTML+=`
+
+<div class="slide">
+<img src="${item.banner_url}" alt="${item.title}">
+</div>
+
+`;
+
+});
+
+const slides=document.querySelectorAll(".slide");
+
+currentSlide=0;
+
+clearInterval(window.heroTimer);
+
+window.heroTimer=setInterval(()=>{
+
+currentSlide++;
+
+if(currentSlide>=slides.length){
+
+currentSlide=0;
+
+}
+
+slider.style.transform=
+`translateX(-${currentSlide*100}%)`;
+
+},4000);
+
+});
+
 </script>
 
 </body>
